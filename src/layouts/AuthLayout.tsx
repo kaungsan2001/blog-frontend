@@ -1,5 +1,23 @@
+import Header from "@/components/Header";
+import { Outlet, Navigate } from "react-router";
+import { useAuth } from "@/features/auth/useAuth";
+
 const AuthLayout = () => {
-  return <div>AuthLayout</div>;
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/auth/sign-in" replace />;
+  }
+  return (
+    <div>
+      <Header />
+      <Outlet />
+    </div>
+  );
 };
 
 export default AuthLayout;

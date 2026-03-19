@@ -14,11 +14,46 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SignInFormSchema } from "../authTypes";
+import type { SignInFormValues } from "../authTypes";
+import { Link } from "react-router";
+import { authClient } from "@/lib/auth-client";
+import { useNavigate } from "react-router";
+import { toast } from "sonner";
+import { useState } from "react";
 
 export function SignInForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    resolver: zodResolver(SignInFormSchema),
+  });
+
+  const onSubmit = (data: SignInFormValues) =>
+    authClient.signIn.email(data, {
+      onRequest: () => {
+        setLoading(true);
+      },
+      onSuccess: () => {
+        toast.success("Login successful");
+        setLoading(false);
+        navigate("/");
+      },
+      onError: () => {
+        toast.error("Login failed");
+        setLoading(false);
+      },
+    });
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -29,7 +64,7 @@ export function SignInForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
@@ -37,28 +72,27 @@ export function SignInForm({
                   id="email"
                   type="email"
                   placeholder="m@example.com"
-                  required
+                  {...register("email")}
                 />
               </Field>
               <Field>
                 <div className="flex items-center">
                   <FieldLabel htmlFor="password">Password</FieldLabel>
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input
+                  id="password"
+                  type="password"
+                  {...register("password")}
+                />
               </Field>
               <Field>
-                <Button type="submit">Login</Button>
-                <Button variant="outline" type="button">
-                  Login with Google
+                <Button type="submit" disabled={loading}>
+                  Login
                 </Button>
+
                 <FieldDescription className="text-center">
-                  Don&apos;t have an account? <a href="#">Sign up</a>
+                  Don&apos;t have an account?{" "}
+                  <Link to="/auth/sign-up">Sign up</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>
