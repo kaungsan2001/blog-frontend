@@ -182,10 +182,22 @@
   }
 }
 
-.quill-content [style*="background-color"] {
-  background-color: transparent !important;
+/* Dark mode editor */
+.dark .ql-editor {
+  color: #e5e5e5; /* light text */
 }
 
-.ql-editor {
-  background-color: transparent !important;
+/* Headings fix */
+.dark .quill-content h1,
+.dark .quill-content h2,
+.dark .quill-content h3,
+.dark .quill-content h4,
+.dark .quill-content h5,
+.dark .quill-content h6 {
+  color: #ffffff;
+  font-weight: 600; /* reduce boldness */
+}
+
+.dark .quill-content p {
+  color: #ffffff;
 }
