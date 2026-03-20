@@ -1,14 +1,21 @@
 import { Link } from "react-router";
 import { ModeToggle } from "./mode-toggle";
 import { useAuth } from "@/features/auth/useAuth";
-import { Button } from "./ui/button";
 import { authClient } from "@/lib/auth-client";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { useState } from "react";
 import { List, PenSquare } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 const Header = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const handleSignOut = () =>
@@ -46,9 +53,28 @@ const Header = () => {
                 <List size={15} />
                 Blogs
               </Link>
-              <Button onClick={handleSignOut} disabled={loading}>
-                Sign Out
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Avatar>
+                    <AvatarFallback>{user?.name?.slice(0, 2)}</AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem
+                      onClick={() => navigate(`/user/profile/${user?.id}`)}
+                    >
+                      Profile
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={handleSignOut}
+                      disabled={loading}
+                    >
+                      SignOut
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </>
           ) : (
             <>

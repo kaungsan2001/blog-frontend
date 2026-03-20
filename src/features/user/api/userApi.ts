@@ -1,7 +1,18 @@
 import api from "@/lib/axios";
+import type {
+  UserProfileResponse,
+  UserBlogsResponse,
+} from "../types/userTypes";
 
-export const userApi = {
-  getAll: () => api.get("/users"),
+export const getUserById = async (id: string) => {
+  const res = await api.get<UserProfileResponse>(`/users/${id}`, {
+    withCredentials: true,
+  });
+  return res.data;
 };
-
-export default userApi;
+export const getUserBlogs = async (id: string) => {
+  const res = await api.get<UserBlogsResponse>(`/users/${id}/blogs`, {
+    withCredentials: true,
+  });
+  return res.data;
+};
