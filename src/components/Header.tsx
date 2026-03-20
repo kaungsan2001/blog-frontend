@@ -6,7 +6,7 @@ import { authClient } from "@/lib/auth-client";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { useState } from "react";
-
+import { List, PenSquare } from "lucide-react";
 const Header = () => {
   const { isAuthenticated } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -37,9 +37,19 @@ const Header = () => {
         </div>
         <div className="flex gap-3 items-center">
           {isAuthenticated ? (
-            <Button onClick={handleSignOut} disabled={loading}>
-              Sign Out
-            </Button>
+            <>
+              <Link to="/blog/create" className="flex items-center gap-2">
+                <PenSquare size={15} />
+                Write
+              </Link>
+              <Link to="/blog/list" className="flex items-center gap-2">
+                <List size={15} />
+                Blogs
+              </Link>
+              <Button onClick={handleSignOut} disabled={loading}>
+                Sign Out
+              </Button>
+            </>
           ) : (
             <>
               <Link to="/auth/sign-in">Sign In</Link>

@@ -2,6 +2,8 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@plugin "@tailwindcss/typography";
+
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.1448 0 0);
@@ -178,4 +180,12 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.quill-content [style*="background-color"] {
+  background-color: transparent !important;
+}
+
+.ql-editor {
+  background-color: transparent !important;
 }

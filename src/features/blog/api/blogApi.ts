@@ -1,7 +1,30 @@
 import api from "@/lib/axios";
+import type {
+  BlogCreateInput,
+  BlogListResponse,
+  BlogResponse,
+} from "../types/blogType";
 
-export const blogApi = {
-  getAll: () => api.get("/blogs"),
-};
+export async function getAllBlogs() {
+  const res = await api.get<BlogListResponse>("/blog");
+  return res.data;
+}
 
-export default blogApi;
+export async function createBlog(data: BlogCreateInput) {
+  const res = await api.post<BlogResponse>("/blog/create", data, {
+    withCredentials: true,
+  });
+  return res.data;
+}
+
+export async function getBlogById(id: string) {
+  const res = await api.get<BlogResponse>(`/blog/${id}`);
+  return res.data;
+}
+
+export async function updateBlog(id: string, data: BlogCreateInput) {
+  const res = await api.put<BlogResponse>(`/blog/${id}`, data, {
+    withCredentials: true,
+  });
+  return res.data;
+}

@@ -10,6 +10,8 @@ import BlogDetailPage from "./features/blog/pages/BlogDetailPage.tsx";
 import BlogCreatePage from "./features/blog/pages/BlogCreatePage.tsx";
 import ProfilePage from "./features/user/pages/ProfilePage.tsx";
 import DashboardPage from "./features/admin/pages/DashboardPage.tsx";
+import UpdateBlogPage from "./features/blog/pages/UpdateBlogPage.tsx";
+import BlogListPage from "./features/blog/pages/BlogListPage.tsx";
 
 const App = () => {
   return (
@@ -21,8 +23,10 @@ const App = () => {
         </Route>
         <Route path="/" element={<AuthLayout />}>
           <Route index element={<HomePage />} />
-          <Route path="blog/:id" element={<BlogDetailPage />} />
+          <Route path="blog/list" element={<BlogListPage />} />
+          <Route path="blog/detail/:id" element={<BlogDetailPage />} />
           <Route path="blog/create" element={<BlogCreatePage />} />
+          <Route path="blog/edit/:id" element={<UpdateBlogPage />} />
 
           <Route path="user/profile" element={<ProfilePage />} />
           <Route path="user/list" element={<UserListPage />} />
