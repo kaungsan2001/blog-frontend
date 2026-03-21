@@ -12,6 +12,7 @@ import ProfilePage from "./features/user/pages/ProfilePage.tsx";
 import DashboardPage from "./features/admin/pages/DashboardPage.tsx";
 import UpdateBlogPage from "./features/blog/pages/UpdateBlogPage.tsx";
 import BlogListPage from "./features/blog/pages/BlogListPage.tsx";
+import SettingsPage from "./features/user/pages/SettingsPage.tsx";
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
 
           <Route path="user/profile/:id" element={<ProfilePage />} />
           <Route path="user/list" element={<UserListPage />} />
+          <Route path="user/settings" element={<SettingsPage />} />
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<DashboardPage />} />

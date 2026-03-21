@@ -45,6 +45,9 @@ const Header = () => {
         <div className="flex gap-3 items-center">
           {isAuthenticated ? (
             <>
+              <Link to="/user/list" className="flex items-center gap-2">
+                Authors
+              </Link>
               <Link to="/blog/create" className="flex items-center gap-2">
                 <PenSquare size={15} />
                 Write
@@ -66,6 +69,12 @@ const Header = () => {
                     >
                       Profile
                     </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => navigate(`/user/settings`)}
+                    >
+                      Settings
+                    </DropdownMenuItem>
+
                     <DropdownMenuItem
                       onClick={handleSignOut}
                       disabled={loading}

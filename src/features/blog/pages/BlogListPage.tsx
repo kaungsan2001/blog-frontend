@@ -1,9 +1,17 @@
 import { useGetBlogs } from "../hooks/useBlog";
 import BlogCard from "../components/BlogCard";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationLink,
+} from "@/components/ui/pagination";
+import { useState } from "react";
 
 const BlogListPage = () => {
-  const { data, isLoading, error } = useGetBlogs();
+  const [page, setPage] = useState(1);
+  const { data, isLoading, error } = useGetBlogs(page);
 
+  const totalPages = data?.data.metaData.totalPages;
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
@@ -15,6 +23,19 @@ const BlogListPage = () => {
           <BlogCard key={blog.id} blog={blog} />
         ))}
       </div>
+      <Pagination>
+        <PaginationContent>
+          {Array.from({ length: totalPages! }, (_, i) => (
+            <PaginationLink
+              key={i}
+              onClick={() => setPage(i + 1)}
+              isActive={page === i + 1}
+            >
+              {i + 1}
+            </PaginationLink>
+          ))}
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 };

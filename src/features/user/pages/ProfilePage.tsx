@@ -6,6 +6,7 @@ import UserBlogsList from "../components/UserBlogsList";
 const ProfilePage = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetUserById(id!);
+
   if (isLoading) {
     return <div>Loading...</div>;
   }

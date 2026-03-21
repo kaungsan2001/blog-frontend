@@ -5,8 +5,8 @@ import type {
   BlogResponse,
 } from "../types/blogType";
 
-export async function getAllBlogs() {
-  const res = await api.get<BlogListResponse>("/blog");
+export async function getAllBlogs(page: number) {
+  const res = await api.get<BlogListResponse>(`/blog?page=${page}`);
   return res.data;
 }
 
@@ -24,6 +24,13 @@ export async function getBlogById(id: string) {
 
 export async function updateBlog(id: string, data: BlogCreateInput) {
   const res = await api.put<BlogResponse>(`/blog/${id}`, data, {
+    withCredentials: true,
+  });
+  return res.data;
+}
+
+export async function deleteBlog(id: string) {
+  const res = await api.delete<BlogResponse>(`/blog/${id}`, {
     withCredentials: true,
   });
   return res.data;

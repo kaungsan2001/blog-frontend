@@ -7,6 +7,7 @@ import {
   getBlogById,
   updateBlog,
   getAllBlogs,
+  deleteBlog,
 } from "../api/blogApi";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -49,9 +50,23 @@ export const useUpdateBlog = (id: string) => {
   });
 };
 
-export const useGetBlogs = () => {
+export const useGetBlogs = (page: number) => {
   return useQuery({
-    queryKey: ["blogs"],
-    queryFn: () => getAllBlogs(),
+    queryKey: ["blogs", page],
+    queryFn: () => getAllBlogs(page),
+  });
+};
+
+export const useDeleteBlog = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => deleteBlog(id),
+    onSuccess: () => {
+      toast.success("Blog deleted successfully");
+      queryClient.invalidateQueries({ queryKey: ["blogs"] });
+    },
+    onError: () => {
+      toast.error("Failed To Delete Blog");
+    },
   });
 };

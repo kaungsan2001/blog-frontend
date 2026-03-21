@@ -13,7 +13,7 @@ const AuthLayout = () => {
     return <Navigate to="/auth/sign-in" replace />;
   }
   return (
-    <div>
+    <div className="pb-30">
       <Header />
       <Outlet />
     </div>

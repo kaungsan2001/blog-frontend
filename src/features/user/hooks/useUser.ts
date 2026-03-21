@@ -1,5 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
-import { getUserById, getUserBlogs } from "../api/userApi";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  getUserById,
+  getUserBlogs,
+  getAllUsers,
+  updateProfile,
+} from "../api/userApi";
+import { toast } from "sonner";
 
 export const useGetUserById = (id: string) => {
   return useQuery({
@@ -7,9 +13,30 @@ export const useGetUserById = (id: string) => {
     queryFn: () => getUserById(id),
   });
 };
-export const useUserBlogs = (id: string) => {
+export const useUserBlogs = (id: string, page: number) => {
   return useQuery({
-    queryKey: ["user-blogs", id],
-    queryFn: () => getUserBlogs(id),
+    queryKey: ["blogs", id, page],
+    queryFn: () => getUserBlogs(id, page),
+  });
+};
+
+export const useGetAllUsers = () => {
+  return useQuery({
+    queryKey: ["users"],
+    queryFn: () => getAllUsers(),
+  });
+};
+
+export const useUpdateProfile = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: { name: string }) => updateProfile(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+      toast.success("Profile updated successfully");
+    },
+    onError: () => {
+      toast.error("Failed to update profile");
+    },
   });
 };
