@@ -5,8 +5,10 @@ import type {
   BlogResponse,
 } from "../types/blogType";
 
-export async function getAllBlogs(page: number) {
-  const res = await api.get<BlogListResponse>(`/blog?page=${page}`);
+export async function getAllBlogs(page: number, query: string) {
+  const res = await api.get<BlogListResponse>(
+    `/blog?page=${page}&query=${query}`,
+  );
   return res.data;
 }
 

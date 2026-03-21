@@ -21,8 +21,10 @@ export const getUserBlogs = async (id: string, page: number) => {
   return res.data;
 };
 
-export const getAllUsers = async () => {
-  const res = await api.get<UserListResponse>(`/users`);
+export const getAllUsers = async (query: string, page: number) => {
+  const res = await api.get<UserListResponse>(
+    `/users?${query ? `query=${query}` : ""}&page=${page}`,
+  );
   return res.data;
 };
 

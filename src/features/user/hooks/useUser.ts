@@ -20,10 +20,10 @@ export const useUserBlogs = (id: string, page: number) => {
   });
 };
 
-export const useGetAllUsers = () => {
+export const useGetAllUsers = (query: string, page: number) => {
   return useQuery({
-    queryKey: ["users"],
-    queryFn: () => getAllUsers(),
+    queryKey: ["users", query, page],
+    queryFn: () => getAllUsers(query, page),
   });
 };
 

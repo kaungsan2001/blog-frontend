@@ -39,13 +39,11 @@ export interface BlogResponse {
 export type BlogListResponse = {
   success: boolean;
   message: string;
-  data: {
-    blogs: Blog[];
-    metaData: {
-      totalBlogs: number;
-      totalPages: number;
-      currentPage: number;
-      limit: number;
-    };
+  data: Blog[];
+  meta: {
+    totalBlogs: number;
+    totalPages: number;
+    currentPage: number;
+    limit: number;
   };
 };

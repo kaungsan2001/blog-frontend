@@ -50,10 +50,10 @@ export const useUpdateBlog = (id: string) => {
   });
 };
 
-export const useGetBlogs = (page: number) => {
+export const useGetBlogs = (page: number, query: string) => {
   return useQuery({
-    queryKey: ["blogs", page],
-    queryFn: () => getAllBlogs(page),
+    queryKey: ["blogs", page, query],
+    queryFn: () => getAllBlogs(page, query),
   });
 };
 

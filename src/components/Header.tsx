@@ -56,6 +56,7 @@ const Header = () => {
                 <List size={15} />
                 Blogs
               </Link>
+
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Avatar>
