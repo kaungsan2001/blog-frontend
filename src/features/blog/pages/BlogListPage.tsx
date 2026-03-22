@@ -3,6 +3,7 @@ import BlogCard from "../components/BlogCard";
 import {
   Pagination,
   PaginationContent,
+  PaginationItem,
   PaginationLink,
 } from "@/components/ui/pagination";
 import { Input } from "@/components/ui/input";
@@ -13,9 +14,16 @@ const BlogListPage = () => {
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounce(query, 500);
+
   const { data, isLoading, error } = useGetBlogs(page, debouncedQuery);
 
-  const totalPages = data?.meta.totalPages;
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+    setPage(1);
+  };
+
+  const totalPages = data?.meta?.totalPages || 0;
+
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
@@ -27,7 +35,7 @@ const BlogListPage = () => {
           type="text"
           placeholder="Search"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={handleSearch}
           className="w-full max-w-md"
           autoFocus
         />
@@ -37,19 +45,23 @@ const BlogListPage = () => {
           <BlogCard key={blog.id} blog={blog} />
         ))}
       </div>
-      <Pagination>
-        <PaginationContent>
-          {Array.from({ length: totalPages! }, (_, i) => (
-            <PaginationLink
-              key={i}
-              onClick={() => setPage(i + 1)}
-              isActive={page === i + 1}
-            >
-              {i + 1}
-            </PaginationLink>
-          ))}
-        </PaginationContent>
-      </Pagination>
+      {totalPages > 0 && (
+        <Pagination>
+          <PaginationContent>
+            {Array.from({ length: totalPages }, (_, i) => (
+              <PaginationItem key={i}>
+                <PaginationLink
+                  className="cursor-pointer"
+                  onClick={() => setPage(i + 1)}
+                  isActive={page === i + 1}
+                >
+                  {i + 1}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+          </PaginationContent>
+        </Pagination>
+      )}
     </div>
   );
 };

@@ -13,9 +13,13 @@ const UserListPage = () => {
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
   const debouncedQuery = useDebounce(query, 500);
-  const { data, isLoading } = useGetAllUsers(debouncedQuery, page);
 
-  const totalPages = data?.meta.totalPages;
+  const { data, isLoading } = useGetAllUsers(debouncedQuery, page);
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+    setPage(1);
+  };
+  const totalPages = data?.meta.totalPages || 0;
   if (isLoading) return <div>Loading...</div>;
   return (
     <div className="p-5">
@@ -25,7 +29,7 @@ const UserListPage = () => {
           type="text"
           placeholder="Search"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={handleSearch}
           className="w-full max-w-md"
         />
       </div>
@@ -37,7 +41,7 @@ const UserListPage = () => {
       <div className="mt-5">
         <Pagination>
           <PaginationContent>
-            {Array.from({ length: totalPages! }, (_, i) => (
+            {Array.from({ length: totalPages }, (_, i) => (
               <PaginationLink
                 key={i}
                 onClick={() => setPage(i + 1)}
