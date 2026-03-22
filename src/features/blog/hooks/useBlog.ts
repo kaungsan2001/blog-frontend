@@ -8,6 +8,7 @@ import {
   updateBlog,
   getAllBlogs,
   deleteBlog,
+  searchBlogs,
 } from "../api/blogApi";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -19,7 +20,7 @@ export const useCreateBlog = () => {
     onSuccess: () => {
       toast.success("Blog created successfully");
       queryClient.invalidateQueries({ queryKey: ["blogs"] });
-      navigate("/blog/list");
+      navigate("/blogs/list");
     },
     onError: () => {
       toast.error("Failed To Create Blog");
@@ -50,10 +51,10 @@ export const useUpdateBlog = (id: string) => {
   });
 };
 
-export const useGetBlogs = (page: number, query: string) => {
+export const useGetBlogs = (page: number) => {
   return useQuery({
-    queryKey: ["blogs", page, query],
-    queryFn: () => getAllBlogs(page, query),
+    queryKey: ["blogs", page],
+    queryFn: () => getAllBlogs(page),
   });
 };
 
@@ -68,5 +69,13 @@ export const useDeleteBlog = () => {
     onError: () => {
       toast.error("Failed To Delete Blog");
     },
+  });
+};
+
+export const useSearchBlogs = (query: string, page: number) => {
+  return useQuery({
+    queryKey: ["blogs", query, page],
+    queryFn: () => searchBlogs(query, page),
+    enabled: !!query,
   });
 };

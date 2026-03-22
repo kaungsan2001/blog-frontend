@@ -6,41 +6,36 @@ import {
   PaginationItem,
   PaginationLink,
 } from "@/components/ui/pagination";
-import { Input } from "@/components/ui/input";
+import { Link } from "react-router";
 import { useState } from "react";
-import { useDebounce } from "@/hooks/useDebounce";
+import { buttonVariants } from "@/components/ui/button";
+import { Search } from "lucide-react";
+import Loading from "@/components/Loading";
 
 const BlogListPage = () => {
   const [page, setPage] = useState(1);
-  const [query, setQuery] = useState("");
-  const debouncedQuery = useDebounce(query, 500);
 
-  const { data, isLoading, error } = useGetBlogs(page, debouncedQuery);
-
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
-    setPage(1);
-  };
+  const { data, isLoading, error } = useGetBlogs(page);
 
   const totalPages = data?.meta?.totalPages || 0;
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loading />;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-center my-4">Blogs</h1>
-      <div className="flex justify-center">
-        <Input
-          type="text"
-          placeholder="Search"
-          value={query}
-          onChange={handleSearch}
-          className="w-full max-w-md"
-          autoFocus
-        />
+    <>
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-bold text-center my-4">Blogs</h1>
+        <Link
+          to="/blogs/search"
+          className={buttonVariants({ variant: "outline" })}
+        >
+          <Search />
+          Search
+        </Link>
       </div>
-      <div className="w-full max-w-5xl p-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto">
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto">
         {data?.data.map((blog) => (
           <BlogCard key={blog.id} blog={blog} />
         ))}
@@ -62,7 +57,7 @@ const BlogListPage = () => {
           </PaginationContent>
         </Pagination>
       )}
-    </div>
+    </>
   );
 };
 

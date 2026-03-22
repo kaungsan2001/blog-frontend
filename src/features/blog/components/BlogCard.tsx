@@ -19,10 +19,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/features/auth/useAuth";
 import { useDeleteBlog } from "../hooks/useBlog";
+import UserAvatar from "@/components/UserAvatar";
+import { useNavigate } from "react-router";
+import { format } from "date-fns";
 
 const BlogCard = ({ blog }: { blog: Blog }) => {
   const { user, isLoading } = useAuth();
   const { mutate: deleteBlog } = useDeleteBlog();
+  const navigate = useNavigate();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -31,9 +35,18 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
     <Card key={blog.id} className="mb-4">
       <CardHeader>
         <div className="flex justify-between">
-          <div>
-            <CardTitle>{blog.title}</CardTitle>
-            <Badge variant="secondary">{blog.category}</Badge>
+          <div className="flex items-center gap-2">
+            <UserAvatar name={blog.author.name} size="lg" />
+            <CardTitle className="text-sm">
+              <p>
+                <Link to={`/user/profile/${blog.authorId}`}>
+                  {blog.author.name}
+                </Link>
+              </p>
+              <small className="text-muted-foreground text-xs">
+                {format(blog.createdAt || "", "dd/MM/yyyy")}
+              </small>
+            </CardTitle>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -48,7 +61,12 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
                 )}
                 {user?.id === blog.authorId && (
                   <>
-                    <DropdownMenuItem variant="default">Edit</DropdownMenuItem>
+                    <DropdownMenuItem
+                      variant="default"
+                      onClick={() => navigate(`/blogs/edit/${blog.id}`)}
+                    >
+                      Edit
+                    </DropdownMenuItem>
                     <DropdownMenuItem
                       variant="destructive"
                       onClick={() => deleteBlog(blog.id)}
@@ -63,11 +81,16 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
         </div>
       </CardHeader>
       <CardContent className="line-clamp-3 text-muted-foreground text-wrap wrap-break-word flex-1">
-        <p dangerouslySetInnerHTML={{ __html: blog.content }} />
+        <Badge variant="outline">{blog.category}</Badge>
+        <h1 className="font-semibold  line-clamp-2 text-xl">{blog.title}</h1>
+        <p
+          className="line-clamp-3"
+          dangerouslySetInnerHTML={{ __html: blog.content }}
+        />
       </CardContent>
-      <CardFooter>
+      <CardFooter className="flex justify-between">
         <Link
-          to={`/blog/detail/${blog.id}`}
+          to={`/blogs/details/${blog.id}`}
           className={buttonVariants({ variant: "default" })}
         >
           Read More

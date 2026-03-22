@@ -10,10 +10,11 @@ import "react-quill-new/dist/quill.snow.css";
 import { useUpdateBlog, useGetBlogById } from "../hooks/useBlog";
 import { useParams } from "react-router";
 import GoBackButton from "@/components/GoBackButton";
+import Loading from "@/components/Loading";
 
 const UpdateBlogPage = () => {
   const { id } = useParams();
-  const { data } = useGetBlogById(id as string);
+  const { data, isLoading } = useGetBlogById(id as string);
   const {
     register,
     handleSubmit,
@@ -34,8 +35,9 @@ const UpdateBlogPage = () => {
     updateBlog(data);
     reset();
   };
+  if (isLoading) return <Loading />;
   return (
-    <div className="p-3">
+    <>
       <GoBackButton />
       <h1 className="text-2xl font-bold text-center my-2">Edit Blog</h1>
 
@@ -88,7 +90,7 @@ const UpdateBlogPage = () => {
           </CardFooter>
         </Card>
       </form>
-    </div>
+    </>
   );
 };
 

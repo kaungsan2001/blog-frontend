@@ -43,18 +43,18 @@ const Header = () => {
           </h1>
         </div>
         <div className="flex gap-3 items-center">
+          <Link to="/users/list" className="flex items-center gap-2">
+            Authors
+          </Link>
+          <Link to="/blogs/list" className="flex items-center gap-2">
+            <List size={15} />
+            Blogs
+          </Link>
           {isAuthenticated ? (
             <>
-              <Link to="/user/list" className="flex items-center gap-2">
-                Authors
-              </Link>
-              <Link to="/blog/create" className="flex items-center gap-2">
+              <Link to="/blogs/create" className="flex items-center gap-2">
                 <PenSquare size={15} />
                 Write
-              </Link>
-              <Link to="/blog/list" className="flex items-center gap-2">
-                <List size={15} />
-                Blogs
               </Link>
 
               <DropdownMenu>
@@ -66,12 +66,12 @@ const Header = () => {
                 <DropdownMenuContent>
                   <DropdownMenuGroup>
                     <DropdownMenuItem
-                      onClick={() => navigate(`/user/profile/${user?.id}`)}
+                      onClick={() => navigate(`/users/profile/${user?.id}`)}
                     >
                       Profile
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                      onClick={() => navigate(`/user/settings`)}
+                      onClick={() => navigate(`/users/settings`)}
                     >
                       Settings
                     </DropdownMenuItem>

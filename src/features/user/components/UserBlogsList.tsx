@@ -7,6 +7,7 @@ import {
   PaginationContent,
 } from "@/components/ui/pagination";
 import { useState } from "react";
+import Loading from "@/components/Loading";
 
 const UserBlogsList = ({ id }: { id: string }) => {
   const [page, setPage] = useState(1);
@@ -14,7 +15,7 @@ const UserBlogsList = ({ id }: { id: string }) => {
 
   const totalPages = data?.meta.totalPages;
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
   return (
     <div>

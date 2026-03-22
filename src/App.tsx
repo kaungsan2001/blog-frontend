@@ -13,6 +13,9 @@ import DashboardPage from "./features/admin/pages/DashboardPage.tsx";
 import UpdateBlogPage from "./features/blog/pages/UpdateBlogPage.tsx";
 import BlogListPage from "./features/blog/pages/BlogListPage.tsx";
 import SettingsPage from "./features/user/pages/SettingsPage.tsx";
+import UserSearchPage from "./features/user/pages/UserSearchPage.tsx";
+import BlogSearchPage from "./features/blog/pages/BlogSearchPage.tsx";
+import HomeLayout from "./layouts/HomeLayout.tsx";
 
 const App = () => {
   return (
@@ -22,16 +25,24 @@ const App = () => {
           <Route path="sign-in" element={<SignInPage />} />
           <Route path="sign-up" element={<SignUpPage />} />
         </Route>
-        <Route path="/" element={<AuthLayout />}>
-          <Route index element={<HomePage />} />
-          <Route path="blog/list" element={<BlogListPage />} />
-          <Route path="blog/detail/:id" element={<BlogDetailPage />} />
-          <Route path="blog/create" element={<BlogCreatePage />} />
-          <Route path="blog/edit/:id" element={<UpdateBlogPage />} />
 
-          <Route path="user/profile/:id" element={<ProfilePage />} />
-          <Route path="user/list" element={<UserListPage />} />
-          <Route path="user/settings" element={<SettingsPage />} />
+        <Route path="/" element={<HomeLayout />}>
+          <Route index element={<HomePage />} />
+
+          <Route path="blogs/list" element={<BlogListPage />} />
+          <Route path="blogs/details/:id" element={<BlogDetailPage />} />
+          <Route path="blogs/search" element={<BlogSearchPage />} />
+
+          <Route path="users/list" element={<UserListPage />} />
+          <Route path="users/search" element={<UserSearchPage />} />
+          <Route path="users/profile/:id" element={<ProfilePage />} />
+        </Route>
+
+        <Route path="/" element={<AuthLayout />}>
+          <Route path="blogs/create" element={<BlogCreatePage />} />
+          <Route path="blogs/edit/:id" element={<UpdateBlogPage />} />
+
+          <Route path="users/settings" element={<SettingsPage />} />
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<DashboardPage />} />

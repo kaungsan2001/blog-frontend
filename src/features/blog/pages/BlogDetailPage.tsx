@@ -6,21 +6,23 @@ import { Edit } from "lucide-react";
 import CommentForm from "../components/CommentForm";
 import CommentList from "../components/CommentList";
 import { useAuth } from "@/features/auth/useAuth";
+import { format } from "date-fns";
+import Loading from "@/components/Loading";
 
 const BlogDetailPage = () => {
   const { user, isLoading: authLoading } = useAuth();
   const { id } = useParams();
   const { data, isLoading, error } = useGetBlogById(id!);
-  if (isLoading || authLoading) return <div>Loading...</div>;
+  if (isLoading || authLoading) return <Loading />;
   if (error) return <div>Error: {error.message}</div>;
   return (
-    <div className="w-full max-w-5xl mx-auto p-3">
+    <>
       <div>
         <div className="flex justify-between items-center">
           <GoBackButton />
           {user?.id === data?.data.authorId && (
             <Link
-              to={`/blog/edit/${id}`}
+              to={`/blogs/edit/${id}`}
               className={buttonVariants({
                 variant: "default",
               })}
@@ -34,12 +36,12 @@ const BlogDetailPage = () => {
         <h1 className="text-5xl font-bold mb-10 mt-5">{data?.data.title}</h1>
         <p
           dangerouslySetInnerHTML={{ __html: data?.data.content || "" }}
-          className="quill-content wrap-break-word prose w-full max-w-full"
+          className="text-black dark:text-white wrap-break-word prose w-full max-w-full"
         />
 
         <div className="mt-5 text-right flex flex-col gap-2">
           <small>Written by {data?.data.author.name}</small>
-          <small>{data?.data.createdAt}</small>
+          <small>{format(data?.data.createdAt || "", "dd/MM/yyyy")}</small>
         </div>
       </div>
       {/* comment section */}
@@ -47,7 +49,7 @@ const BlogDetailPage = () => {
         <CommentForm blogId={id!} />
         <CommentList blogId={id!} />
       </section>
-    </div>
+    </>
   );
 };
 

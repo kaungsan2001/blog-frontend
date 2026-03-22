@@ -11,12 +11,13 @@ import {
 
 import { useAuth } from "@/features/auth/useAuth";
 import { useDeleteComment } from "../hooks/useComment";
+import Loading from "@/components/Loading";
 const CommentList = ({ blogId }: { blogId: string }) => {
   const { data, isLoading } = useGetComments(blogId);
   const { user } = useAuth();
   const { mutate: deleteComment } = useDeleteComment(blogId);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loading />;
 
   return (
     <div className="mt-5">

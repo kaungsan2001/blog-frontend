@@ -6,7 +6,7 @@ import type {
 } from "../types/userTypes";
 
 export const getUserById = async (id: string) => {
-  const res = await api.get<UserProfileResponse>(`/users/${id}`, {
+  const res = await api.get<UserProfileResponse>(`/users/details/${id}`, {
     withCredentials: true,
   });
   return res.data;
@@ -21,10 +21,8 @@ export const getUserBlogs = async (id: string, page: number) => {
   return res.data;
 };
 
-export const getAllUsers = async (query: string, page: number) => {
-  const res = await api.get<UserListResponse>(
-    `/users?${query ? `query=${query}` : ""}&page=${page}`,
-  );
+export const getAllUsers = async (page: number) => {
+  const res = await api.get<UserListResponse>(`/users?page=${page}`);
   return res.data;
 };
 
@@ -32,5 +30,12 @@ export const updateProfile = async (data: { name: string }) => {
   const res = await api.put<UserProfileResponse>(`/users/profile`, data, {
     withCredentials: true,
   });
+  return res.data;
+};
+
+export const searchUsers = async (query: string, page: number) => {
+  const res = await api.get<UserListResponse>(
+    `/users/search?q=${query}&page=${page}`,
+  );
   return res.data;
 };

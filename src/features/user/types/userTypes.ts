@@ -1,7 +1,7 @@
 import type { Blog } from "@/features/blog/types/blogType";
 import z from "zod";
 
-export type UserProfile = {
+export type User = {
   id: string;
   name: string;
   email: string;
@@ -13,7 +13,7 @@ export type UserProfile = {
 };
 
 export type UserProfileResponse = {
-  data: UserProfile;
+  data: User;
   message: string;
   statusCode: number;
 };
@@ -31,7 +31,7 @@ export type UserBlogsResponse = {
 };
 
 export type UserListResponse = {
-  data: UserProfile[];
+  data: User[];
   message: string;
   statusCode: number;
   meta: {

@@ -5,12 +5,12 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
-import type { UserProfile } from "../types/userTypes";
+import type { User } from "../types/userTypes";
 import { Link } from "react-router";
 
-const UserCard = ({ user }: { user: UserProfile }) => {
+const UserCard = ({ user }: { user: User }) => {
   return (
-    <Link to={`/user/profile/${user.id}`}>
+    <Link to={`/users/profile/${user.id}`}>
       <Card className="cursor-pointer">
         <CardHeader className="flex flex-col items-center">
           <Avatar className="w-30 h-30">

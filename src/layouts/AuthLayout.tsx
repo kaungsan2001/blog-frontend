@@ -15,7 +15,9 @@ const AuthLayout = () => {
   return (
     <div className="pb-30">
       <Header />
-      <Outlet />
+      <main className="w-full max-w-5xl mx-auto px-5 py-3">
+        <Outlet />
+      </main>
     </div>
   );
 };

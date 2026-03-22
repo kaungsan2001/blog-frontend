@@ -8,7 +8,10 @@ import {
   type CommentCreateInput,
 } from "../types/commentType";
 import { useCreateComment } from "../hooks/useComment";
+import { useAuth } from "@/features/auth/useAuth";
+import { Link } from "react-router";
 const CommentForm = ({ blogId }: { blogId: string }) => {
+  const { isAuthenticated } = useAuth();
   const {
     register,
     handleSubmit,
@@ -28,13 +31,25 @@ const CommentForm = ({ blogId }: { blogId: string }) => {
   return (
     <div>
       <h2 className="text-2xl font-bold mb-5">Write A Comment</h2>
+      {!isAuthenticated && (
+        <small className="text-sm text-red-500 mb-5 block">
+          Please login to comment.{" "}
+          <Link to="/auth/sign-in" className="underline">
+            Login
+          </Link>
+        </small>
+      )}
       <form onSubmit={handleSubmit(onSubmit)}>
         <Field>
           <Textarea placeholder="Enter comment" {...register("content")} />
           {errors.content && <FieldError>{errors.content.message}</FieldError>}
         </Field>
         <div className="flex justify-end">
-          <Button type="submit" disabled={isPending} className="mt-5">
+          <Button
+            type="submit"
+            disabled={isPending || !isAuthenticated}
+            className="mt-5"
+          >
             Submit
           </Button>
         </div>
