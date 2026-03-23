@@ -17,8 +17,11 @@ const BlogSearchPage = () => {
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
   const debouncedQuery = useDebounce(query, 500);
-  const { data, isLoading } = useSearchBlogs(debouncedQuery, page);
+  const { data, isLoading, error } = useSearchBlogs(debouncedQuery, page);
   const totalPages = data?.meta?.totalPages || 0;
+
+  if (isLoading) return <Loading />;
+  if (error) return <div>Error: {error.message}</div>;
 
   return (
     <>
@@ -31,14 +34,19 @@ const BlogSearchPage = () => {
           onChange={(e) => setQuery(e.target.value)}
         />
       </div>
-      {isLoading && <Loading />}
+
+      {/* no blogs found */}
       {query.length > 0 && !isLoading && data?.data.length === 0 && (
         <NotFound message="No blogs found" />
       )}
+
+      {/* blogs list */}
       <div className="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {!isLoading &&
           data?.data.map((blog) => <BlogCard key={blog.id} blog={blog} />)}
       </div>
+
+      {/* pagination */}
       <div className="mt-5">
         <Pagination>
           <PaginationContent>

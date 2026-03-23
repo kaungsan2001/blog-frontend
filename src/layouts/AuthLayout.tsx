@@ -1,12 +1,17 @@
 import Header from "@/components/Header";
 import { Outlet, Navigate } from "react-router";
 import { useAuth } from "@/features/auth/useAuth";
+import Loading from "@/components/Loading";
 
 const AuthLayout = () => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, error } = useAuth();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
   }
 
   if (!isAuthenticated) {

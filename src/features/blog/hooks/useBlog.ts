@@ -22,9 +22,6 @@ export const useCreateBlog = () => {
       queryClient.invalidateQueries({ queryKey: ["blogs"] });
       navigate("/blogs/list");
     },
-    onError: () => {
-      toast.error("Failed To Create Blog");
-    },
   });
 };
 
@@ -45,9 +42,6 @@ export const useUpdateBlog = (id: string) => {
       queryClient.invalidateQueries({ queryKey: ["blog", id] });
       navigate(-1);
     },
-    onError: () => {
-      toast.error("Failed To Update Blog");
-    },
   });
 };
 
@@ -65,9 +59,6 @@ export const useDeleteBlog = () => {
     onSuccess: () => {
       toast.success("Blog deleted successfully");
       queryClient.invalidateQueries({ queryKey: ["blogs"] });
-    },
-    onError: () => {
-      toast.error("Failed To Delete Blog");
     },
   });
 };

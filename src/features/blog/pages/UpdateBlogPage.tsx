@@ -14,7 +14,7 @@ import Loading from "@/components/Loading";
 
 const UpdateBlogPage = () => {
   const { id } = useParams();
-  const { data, isLoading } = useGetBlogById(id as string);
+  const { data, isLoading, error } = useGetBlogById(id as string);
   const {
     register,
     handleSubmit,
@@ -36,6 +36,7 @@ const UpdateBlogPage = () => {
     reset();
   };
   if (isLoading) return <Loading />;
+  if (error) return <div>Error: {error.message}</div>;
   return (
     <>
       <GoBackButton />

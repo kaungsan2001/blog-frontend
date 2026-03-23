@@ -13,9 +13,12 @@ import Loading from "@/components/Loading";
 
 const UserListPage = () => {
   const [page, setPage] = useState(1);
-  const { data, isLoading } = useGetAllUsers(page);
+  const { data, isLoading, error } = useGetAllUsers(page);
   const totalPages = data?.meta.totalPages || 0;
+
   if (isLoading) return <Loading />;
+  if (error) return <div>Error: {error.message}</div>;
+
   return (
     <>
       <div className="flex justify-between items-center">
@@ -35,6 +38,7 @@ const UserListPage = () => {
           <UserCard key={user.id} user={user} />
         ))}
       </div>
+
       <div className="mt-5">
         <Pagination>
           <PaginationContent>

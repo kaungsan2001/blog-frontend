@@ -39,9 +39,6 @@ export const useUpdateProfile = () => {
       toast.success("Profile updated successfully");
       navigate(-1);
     },
-    onError: () => {
-      toast.error("Failed to update profile");
-    },
   });
 };
 

@@ -7,10 +7,13 @@ import Loading from "@/components/Loading";
 
 const ProfilePage = () => {
   const { id } = useParams();
-  const { data, isLoading } = useGetUserById(id!);
+  const { data, isLoading, error } = useGetUserById(id!);
 
   if (isLoading) {
     return <Loading />;
+  }
+  if (error) {
+    return <div>Error: {error.message}</div>;
   }
   return (
     <>

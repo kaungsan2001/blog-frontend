@@ -13,16 +13,21 @@ import { useAuth } from "@/features/auth/useAuth";
 import { useDeleteComment } from "../hooks/useComment";
 import Loading from "@/components/Loading";
 const CommentList = ({ blogId }: { blogId: string }) => {
-  const { data, isLoading } = useGetComments(blogId);
+  const { data, isLoading, error } = useGetComments(blogId);
   const { user } = useAuth();
   const { mutate: deleteComment } = useDeleteComment(blogId);
 
   if (isLoading) return <Loading />;
+  if (error) return <div>Error: {error.message}</div>;
 
   return (
     <div className="mt-5">
       <h2 className="text-2xl font-bold mb-5">Comments</h2>
       <ul className="space-y-5 max-h-[calc(100vh-200px)] overflow-y-scroll">
+        {/* no comments */}
+        {data?.data.length === 0 && <p>No comments yet</p>}
+
+        {/* comments */}
         {data?.data.map((comment) => (
           <li
             key={comment.id}

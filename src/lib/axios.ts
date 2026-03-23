@@ -6,6 +6,22 @@ const axiosParams = {
 
 const axiosInstance = axios.create(axiosParams);
 
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    let message = "Something went wrong";
+    if (error.response) {
+      message = error.response.data?.message || "Something went wrong";
+    } else if (error.request) {
+      message = "Network error";
+    } else {
+      message = error.message;
+    }
+
+    return Promise.reject(new Error(message));
+  },
+);
+
 const api = (axios: AxiosInstance) => {
   return {
     get: <T>(url: string, config: AxiosRequestConfig = {}) =>

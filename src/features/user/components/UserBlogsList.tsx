@@ -11,11 +11,14 @@ import Loading from "@/components/Loading";
 
 const UserBlogsList = ({ id }: { id: string }) => {
   const [page, setPage] = useState(1);
-  const { data, isLoading } = useUserBlogs(id, page);
+  const { data, isLoading, error } = useUserBlogs(id, page);
 
   const totalPages = data?.meta.totalPages;
   if (isLoading) {
     return <Loading />;
+  }
+  if (error) {
+    return <div>Error: {error.message}</div>;
   }
   return (
     <div>

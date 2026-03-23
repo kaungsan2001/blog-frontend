@@ -9,9 +9,10 @@ import {
   type UpdateProfileSchema,
 } from "../types/userTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Loading from "@/components/Loading";
 
 const UpdateProfileform = () => {
-  const { user, isLoading } = useAuth();
+  const { user, isLoading, error } = useAuth();
 
   const {
     register,
@@ -32,7 +33,10 @@ const UpdateProfileform = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
+  }
+  if (error) {
+    return <div>Error: {error.message}</div>;
   }
   return (
     <div>
