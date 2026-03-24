@@ -5,6 +5,8 @@ import {
   getAllUsers,
   updateProfile,
   searchUsers,
+  followUser,
+  unfollowUser,
 } from "../api/userApi";
 import { toast } from "sonner";
 import { useNavigate } from "react-router";
@@ -47,5 +49,29 @@ export const useSearchUsers = (query: string, page: number) => {
     queryKey: ["users", query, page],
     queryFn: () => searchUsers(query, page),
     enabled: !!query,
+  });
+};
+
+export const useFollowUser = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => followUser(id),
+    onSuccess: (_, id) => {
+      queryClient.invalidateQueries({ queryKey: ["check-follow", id] });
+      queryClient.invalidateQueries({ queryKey: ["user", id] });
+      toast.success("User followed successfully");
+    },
+  });
+};
+
+export const useUnfollowUser = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => unfollowUser(id),
+    onSuccess: (_, id) => {
+      queryClient.invalidateQueries({ queryKey: ["check-follow", id] });
+      queryClient.invalidateQueries({ queryKey: ["user", id] });
+      toast.success("User unfollowed successfully");
+    },
   });
 };

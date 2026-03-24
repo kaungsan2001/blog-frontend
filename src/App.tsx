@@ -35,13 +35,13 @@ const App = () => {
 
           <Route path="users/list" element={<UserListPage />} />
           <Route path="users/search" element={<UserSearchPage />} />
-          <Route path="users/profile/:id" element={<ProfilePage />} />
         </Route>
 
         <Route path="/" element={<AuthLayout />}>
           <Route path="blogs/create" element={<BlogCreatePage />} />
           <Route path="blogs/edit/:id" element={<UpdateBlogPage />} />
 
+          <Route path="users/profile/:id" element={<ProfilePage />} />
           <Route path="users/settings" element={<SettingsPage />} />
         </Route>
         <Route path="/admin" element={<AdminLayout />}>

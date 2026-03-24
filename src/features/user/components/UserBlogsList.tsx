@@ -9,9 +9,9 @@ import {
 import { useState } from "react";
 import Loading from "@/components/Loading";
 
-const UserBlogsList = ({ id }: { id: string }) => {
+const UserBlogsList = ({ userId }: { userId: string }) => {
   const [page, setPage] = useState(1);
-  const { data, isLoading, error } = useUserBlogs(id, page);
+  const { data, isLoading, error } = useUserBlogs(userId, page);
 
   const totalPages = data?.meta.totalPages;
   if (isLoading) {

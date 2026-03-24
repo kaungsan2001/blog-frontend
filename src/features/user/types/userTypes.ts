@@ -9,7 +9,10 @@ export type User = {
   updatedAt: string;
   _count: {
     blogs: number;
+    followers: number;
+    following: number;
   };
+  isFollowing: boolean;
 };
 
 export type UserProfileResponse = {

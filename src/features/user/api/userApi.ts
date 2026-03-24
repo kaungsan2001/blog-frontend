@@ -39,3 +39,21 @@ export const searchUsers = async (query: string, page: number) => {
   );
   return res.data;
 };
+
+export const followUser = async (id: string) => {
+  const res = await api.post(
+    `/users/follow/${id}`,
+    {},
+    {
+      withCredentials: true,
+    },
+  );
+  return res.data;
+};
+
+export const unfollowUser = async (id: string) => {
+  const res = await api.delete(`/users/unfollow/${id}`, {
+    withCredentials: true,
+  });
+  return res.data;
+};
