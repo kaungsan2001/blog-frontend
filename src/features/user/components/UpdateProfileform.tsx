@@ -10,9 +10,11 @@ import {
 } from "../types/userTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Loading from "@/components/Loading";
+import { useGetUserById } from "../hooks/useUser";
 
 const UpdateProfileform = () => {
-  const { user, isLoading, error } = useAuth();
+  const { user, isLoading: authLoading } = useAuth();
+  const { data, isLoading, error } = useGetUserById(user?.id || "");
 
   const {
     register,
@@ -21,7 +23,9 @@ const UpdateProfileform = () => {
     formState: { errors },
   } = useForm({
     values: {
-      name: user?.name || "",
+      name: data?.data.name || "",
+      bio: data?.data.bio || "",
+      address: data?.data.address || "",
     },
     resolver: zodResolver(updateProfileSchema),
   });
@@ -32,7 +36,7 @@ const UpdateProfileform = () => {
     reset();
   };
 
-  if (isLoading) {
+  if (isLoading || authLoading) {
     return <Loading />;
   }
   if (error) {
@@ -46,6 +50,16 @@ const UpdateProfileform = () => {
           <FieldLabel>Name</FieldLabel>
           <Input type="text" {...register("name")} />
           {errors.name && <FieldError>{errors.name.message}</FieldError>}
+        </Field>
+        <Field>
+          <FieldLabel>Bio</FieldLabel>
+          <Input type="text" {...register("bio")} />
+          {errors.bio && <FieldError>{errors.bio.message}</FieldError>}
+        </Field>
+        <Field>
+          <FieldLabel>Address</FieldLabel>
+          <Input type="text" {...register("address")} />
+          {errors.address && <FieldError>{errors.address.message}</FieldError>}
         </Field>
         <div className="flex justify-end mt-3">
           <Button type="submit" disabled={isPending}>

@@ -18,7 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/features/auth/useAuth";
-import { useDeleteBlog } from "../hooks/useBlog";
+import { useDeleteBlog, useSaveBlog, useUnsaveBlog } from "../hooks/useBlog";
 import UserAvatar from "@/components/UserAvatar";
 import { useNavigate } from "react-router";
 import { format } from "date-fns";
@@ -26,6 +26,8 @@ import { format } from "date-fns";
 const BlogCard = ({ blog }: { blog: Blog }) => {
   const { user, isLoading } = useAuth();
   const { mutate: deleteBlog } = useDeleteBlog();
+  const { mutate: saveBlog } = useSaveBlog();
+  const { mutate: unsaveBlog } = useUnsaveBlog();
   const navigate = useNavigate();
 
   if (isLoading) {
@@ -56,8 +58,20 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuGroup>
-                {user && (
-                  <DropdownMenuItem variant="default">Save</DropdownMenuItem>
+                {blog.isSaved ? (
+                  <DropdownMenuItem
+                    variant="default"
+                    onClick={() => unsaveBlog(blog.id)}
+                  >
+                    Unsave
+                  </DropdownMenuItem>
+                ) : (
+                  <DropdownMenuItem
+                    variant="default"
+                    onClick={() => saveBlog(blog.id)}
+                  >
+                    Save
+                  </DropdownMenuItem>
                 )}
                 {user?.id === blog.authorId && (
                   <>

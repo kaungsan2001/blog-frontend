@@ -9,6 +9,8 @@ import {
   getAllBlogs,
   deleteBlog,
   searchBlogs,
+  saveBlog,
+  unsaveBlog,
 } from "../api/blogApi";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -68,5 +70,27 @@ export const useSearchBlogs = (query: string, page: number) => {
     queryKey: ["blogs", query, page],
     queryFn: () => searchBlogs(query, page),
     enabled: !!query,
+  });
+};
+
+export const useSaveBlog = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (blogId: string) => saveBlog(blogId),
+    onSuccess: () => {
+      toast.success("Blog saved successfully");
+      queryClient.invalidateQueries({ queryKey: ["blogs"] });
+    },
+  });
+};
+
+export const useUnsaveBlog = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (blogId: string) => unsaveBlog(blogId),
+    onSuccess: () => {
+      toast.success("Blog unsaved successfully");
+      queryClient.invalidateQueries({ queryKey: ["blogs"] });
+    },
   });
 };

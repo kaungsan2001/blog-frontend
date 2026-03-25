@@ -22,7 +22,9 @@ export const getUserBlogs = async (id: string, page: number) => {
 };
 
 export const getAllUsers = async (page: number) => {
-  const res = await api.get<UserListResponse>(`/users?page=${page}`);
+  const res = await api.get<UserListResponse>(`/users?page=${page}`, {
+    withCredentials: true,
+  });
   return res.data;
 };
 

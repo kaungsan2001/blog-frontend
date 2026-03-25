@@ -11,17 +11,13 @@ import Loading from "@/components/Loading";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 
-import {
-  Calendar,
-  Link as LinkIcon,
-  MapPin,
-  MoreHorizontal,
-  UserPlus,
-} from "lucide-react";
+import { Calendar, MapPin, MoreHorizontal, UserPlus } from "lucide-react";
 import UserBlogsList from "../components/UserBlogsList";
+import { useNavigate } from "react-router";
 
 const ProfilePage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { user: authUser } = useAuth();
   const { data, isLoading, error } = useGetUserById(id!);
 
@@ -66,7 +62,7 @@ const ProfilePage = () => {
                 {data?.data.name}
               </h1>
               <p className="text-sm sm:text-base text-muted-foreground">
-                @{data?.data.name}
+                {data?.data.email}
               </p>
             </div>
           </div>
@@ -95,6 +91,7 @@ const ProfilePage = () => {
               size="icon"
               className="border border-border/40"
               aria-label="More profile options"
+              onClick={() => navigate(`/users/settings`)}
             >
               <MoreHorizontal className="h-4 w-4" aria-hidden="true" />
             </Button>
@@ -109,9 +106,7 @@ const ProfilePage = () => {
           <div className="space-y-6">
             <div className="space-y-4">
               <p className="text-sm sm:text-base leading-relaxed text-foreground/90">
-                Product Designer & Frontend Developer. Passionate about building
-                beautiful, accessible user interfaces. Creating digital
-                experiences that matter. ✨
+                {data?.data.bio || ""}
               </p>
 
               <div className="flex flex-wrap gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground">
@@ -120,27 +115,14 @@ const ProfilePage = () => {
                     className="h-3.5 w-3.5 sm:h-4 sm:w-4"
                     aria-hidden="true"
                   />
-                  <span>San Francisco, CA</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <LinkIcon
-                    className="h-3.5 w-3.5 sm:h-4 sm:w-4"
-                    aria-hidden="true"
-                  />
-                  <a
-                    href="#"
-                    className="hover:text-primary hover:underline"
-                    aria-label="Visit Moumen Soliman's website"
-                  >
-                    moumen.dev
-                  </a>
+                  <span>{data?.data.address || ""}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <Calendar
                     className="h-3.5 w-3.5 sm:h-4 sm:w-4"
                     aria-hidden="true"
                   />
-                  <span>Joined March 2024</span>
+                  <span>Joined {data?.data.createdAt}</span>
                 </div>
               </div>
 

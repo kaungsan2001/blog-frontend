@@ -28,6 +28,7 @@ export interface Blog {
     name: string;
     email: string;
   };
+  isSaved: boolean;
 }
 
 export interface BlogResponse {

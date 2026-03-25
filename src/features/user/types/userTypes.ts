@@ -5,6 +5,8 @@ export type User = {
   id: string;
   name: string;
   email: string;
+  bio?: string | null;
+  address?: string | null;
   createdAt: string;
   updatedAt: string;
   _count: {
@@ -47,6 +49,8 @@ export type UserListResponse = {
 
 export const updateProfileSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters long"),
+  bio: z.string().min(1, "Bio must be at least 1 character long"),
+  address: z.string().min(1, "Address must be at least 1 character long"),
 });
 
 export const changePasswordSchema = z.object({
