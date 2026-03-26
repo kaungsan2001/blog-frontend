@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import {
   useGetUserById,
   useFollowUser,
@@ -86,15 +86,18 @@ const ProfilePage = () => {
                 )}
               </>
             )}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="border border-border/40"
-              aria-label="More profile options"
-              onClick={() => navigate(`/users/settings`)}
-            >
-              <MoreHorizontal className="h-4 w-4" aria-hidden="true" />
-            </Button>
+
+            {authUser?.id === id && (
+              <Button
+                variant="ghost"
+                size="icon"
+                className="border border-border/40"
+                aria-label="More profile options"
+                onClick={() => navigate(`/users/settings`)}
+              >
+                <MoreHorizontal className="h-4 w-4" aria-hidden="true" />
+              </Button>
+            )}
           </div>
         </div>
 
@@ -128,16 +131,20 @@ const ProfilePage = () => {
 
               <div className="flex gap-4 sm:gap-6 pt-2 text-sm sm:text-base">
                 <div className="flex items-center gap-1.5">
-                  <span className="font-bold text-foreground">
-                    {data?.data._count?.following ?? 0}
-                  </span>
-                  <span className="text-muted-foreground">Following</span>
+                  <Link to={`/users/following`}>
+                    <span className="font-bold text-foreground">
+                      {data?.data._count?.following ?? 0}
+                    </span>
+                    <span className="text-muted-foreground">Following</span>
+                  </Link>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <span className="font-bold text-foreground">
-                    {data?.data._count?.followers ?? 0}
-                  </span>
-                  <span className="text-muted-foreground">Followers</span>
+                  <Link to={`/users/followers`}>
+                    <span className="font-bold text-foreground">
+                      {data?.data._count?.followers ?? 0}
+                    </span>
+                    <span className="text-muted-foreground">Followers</span>
+                  </Link>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <span className="font-bold text-foreground">

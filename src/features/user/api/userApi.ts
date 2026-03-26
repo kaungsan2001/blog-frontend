@@ -59,3 +59,17 @@ export const unfollowUser = async (id: string) => {
   });
   return res.data;
 };
+
+export const getFollowers = async (page: number) => {
+  const res = await api.get<UserListResponse>(`/users/followers?page=${page}`, {
+    withCredentials: true,
+  });
+  return res.data;
+};
+
+export const getFollowing = async (page: number) => {
+  const res = await api.get<UserListResponse>(`/users/following?page=${page}`, {
+    withCredentials: true,
+  });
+  return res.data;
+};

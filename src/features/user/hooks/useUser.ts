@@ -7,6 +7,8 @@ import {
   searchUsers,
   followUser,
   unfollowUser,
+  getFollowers,
+  getFollowing,
 } from "../api/userApi";
 import { toast } from "sonner";
 import { useNavigate } from "react-router";
@@ -73,5 +75,19 @@ export const useUnfollowUser = () => {
       queryClient.invalidateQueries({ queryKey: ["user", id] });
       toast.success("User unfollowed successfully");
     },
+  });
+};
+
+export const useGetFollowers = (page: number) => {
+  return useQuery({
+    queryKey: ["followers", page],
+    queryFn: () => getFollowers(page),
+  });
+};
+
+export const useGetFollowing = (page: number) => {
+  return useQuery({
+    queryKey: ["following", page],
+    queryFn: () => getFollowing(page),
   });
 };

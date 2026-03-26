@@ -1,20 +1,15 @@
 import UserCard from "../components/UserCard";
 import { useGetAllUsers } from "../hooks/useUser";
 import { useState } from "react";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationLink,
-} from "@/components/ui/pagination";
 import { buttonVariants } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import { Link } from "react-router";
 import Loading from "@/components/Loading";
+import CustomPagination from "@/components/CustomPagination";
 
 const UserListPage = () => {
   const [page, setPage] = useState(1);
   const { data, isLoading, error } = useGetAllUsers(page);
-  const totalPages = data?.meta.totalPages || 0;
 
   if (isLoading) return <Loading />;
   if (error) return <div>Error: {error.message}</div>;
@@ -39,21 +34,11 @@ const UserListPage = () => {
         ))}
       </div>
 
-      <div className="mt-5">
-        <Pagination>
-          <PaginationContent>
-            {Array.from({ length: totalPages }, (_, i) => (
-              <PaginationLink
-                key={i}
-                onClick={() => setPage(i + 1)}
-                isActive={page === i + 1}
-              >
-                {i + 1}
-              </PaginationLink>
-            ))}
-          </PaginationContent>
-        </Pagination>
-      </div>
+      <CustomPagination
+        totalPages={data?.meta.totalPages || 0}
+        page={page}
+        setPage={setPage}
+      />
     </>
   );
 };

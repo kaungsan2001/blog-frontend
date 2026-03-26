@@ -1,17 +1,11 @@
 import Loading from "@/components/Loading";
 import BlogCard from "../components/BlogCard";
 import { useGetSavedBlogs } from "../hooks/useBlog";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-} from "@/components/ui/pagination";
 import { useState } from "react";
+import CustomPagination from "@/components/CustomPagination";
 const SavedBlogsPage = () => {
   const [page, setPage] = useState(1);
   const { data, isLoading, error } = useGetSavedBlogs(page);
-  const totalPages = data?.meta?.totalPages || 0;
 
   if (isLoading) return <Loading />;
   if (error) return <div>Error: {error.message}</div>;
@@ -25,23 +19,11 @@ const SavedBlogsPage = () => {
         ))}
       </div>
 
-      {totalPages > 1 && (
-        <Pagination>
-          <PaginationContent>
-            {Array.from({ length: totalPages }, (_, i) => (
-              <PaginationItem key={i}>
-                <PaginationLink
-                  className="cursor-pointer"
-                  onClick={() => setPage(i + 1)}
-                  isActive={page === i + 1}
-                >
-                  {i + 1}
-                </PaginationLink>
-              </PaginationItem>
-            ))}
-          </PaginationContent>
-        </Pagination>
-      )}
+      <CustomPagination
+        totalPages={data?.meta.totalPages || 0}
+        page={page}
+        setPage={setPage}
+      />
     </div>
   );
 };

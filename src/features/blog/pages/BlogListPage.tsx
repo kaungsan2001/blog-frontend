@@ -1,11 +1,6 @@
 import { useGetBlogs } from "../hooks/useBlog";
 import BlogCard from "../components/BlogCard";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-} from "@/components/ui/pagination";
+
 import { Link } from "react-router";
 import { useState } from "react";
 import { buttonVariants } from "@/components/ui/button";
@@ -13,6 +8,7 @@ import { Search } from "lucide-react";
 import Loading from "@/components/Loading";
 import { useGetAllCategories } from "../hooks/useCategory";
 import { Button } from "@/components/ui/button";
+import CustomPagination from "@/components/CustomPagination";
 
 const BlogListPage = () => {
   const [page, setPage] = useState(1);
@@ -21,8 +17,6 @@ const BlogListPage = () => {
   const { data, isLoading, error } = useGetBlogs(page, categoryId);
   const { data: categories, isLoading: categoriesLoading } =
     useGetAllCategories();
-
-  const totalPages = data?.meta?.totalPages || 0;
 
   if (isLoading || categoriesLoading) return <Loading />;
   if (error) return <div>Error: {error.message}</div>;
@@ -57,23 +51,11 @@ const BlogListPage = () => {
           <BlogCard key={blog.id} blog={blog} />
         ))}
       </div>
-      {totalPages > 0 && (
-        <Pagination>
-          <PaginationContent>
-            {Array.from({ length: totalPages }, (_, i) => (
-              <PaginationItem key={i}>
-                <PaginationLink
-                  className="cursor-pointer"
-                  onClick={() => setPage(i + 1)}
-                  isActive={page === i + 1}
-                >
-                  {i + 1}
-                </PaginationLink>
-              </PaginationItem>
-            ))}
-          </PaginationContent>
-        </Pagination>
-      )}
+      <CustomPagination
+        totalPages={data?.meta.totalPages || 0}
+        page={page}
+        setPage={setPage}
+      />
     </>
   );
 };

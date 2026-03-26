@@ -2,30 +2,41 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BlogCreateSchema, type BlogCreateInput } from "../types/blogType";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import { useUpdateBlog, useGetBlogById } from "../hooks/useBlog";
 import { useParams } from "react-router";
 import GoBackButton from "@/components/GoBackButton";
 import Loading from "@/components/Loading";
+import { useGetAllCategories } from "../hooks/useCategory";
 
 const UpdateBlogPage = () => {
   const { id } = useParams();
   const { data, isLoading, error } = useGetBlogById(id as string);
+  const { data: categories, isLoading: isCategoriesLoading } =
+    useGetAllCategories();
   const {
     register,
     handleSubmit,
     formState: { errors },
-    control,
     reset,
+    setValue,
   } = useForm({
     resolver: zodResolver(BlogCreateSchema),
     values: {
       title: data?.data.title || "",
-      category: data?.data.category || "",
+      categoryId: data?.data.category.id || "",
       content: data?.data.content || "",
     },
   });
@@ -35,7 +46,7 @@ const UpdateBlogPage = () => {
     updateBlog(data);
     reset();
   };
-  if (isLoading) return <Loading />;
+  if (isLoading || isCategoriesLoading) return <Loading />;
   if (error) return <div>Error: {error.message}</div>;
   return (
     <>
@@ -57,28 +68,39 @@ const UpdateBlogPage = () => {
 
             <Field>
               <FieldLabel>Category</FieldLabel>
-              <Input
-                type="text"
-                placeholder="Enter category"
-                {...register("category")}
-              />
-              {errors.category && (
-                <FieldError>{errors.category.message}</FieldError>
+
+              <Select
+                defaultValue={data?.data.category.id}
+                onValueChange={(value) => setValue("categoryId", value)}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select Category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {categories?.data.map((category) => (
+                      <SelectItem key={category.id} value={category.id}>
+                        {category.name}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+
+              {errors.categoryId && (
+                <FieldError>{errors.categoryId.message}</FieldError>
               )}
             </Field>
+
             <Field>
               <FieldLabel>Content</FieldLabel>
-              <Controller
-                name="content"
-                control={control}
-                render={({ field }) => (
-                  <ReactQuill
-                    theme="snow"
-                    value={field.value}
-                    onChange={field.onChange}
-                  />
-                )}
+
+              <ReactQuill
+                theme="snow"
+                defaultValue={data?.data.content}
+                onChange={(value) => setValue("content", value)}
               />
+
               {errors.content && (
                 <FieldError>{errors.content.message}</FieldError>
               )}

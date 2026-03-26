@@ -6,10 +6,20 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BlogCreateSchema, type BlogCreateInput } from "../types/blogType";
 import ReactQuill from "react-quill-new";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import "react-quill-new/dist/quill.snow.css";
 import { useCreateBlog } from "../hooks/useBlog";
+import { useGetAllCategories } from "../hooks/useCategory";
 
 const BlogCreatePage = () => {
+  const { data: categories } = useGetAllCategories();
   const {
     register,
     handleSubmit,
@@ -20,7 +30,7 @@ const BlogCreatePage = () => {
     resolver: zodResolver(BlogCreateSchema),
     defaultValues: {
       title: "",
-      category: "",
+      categoryId: "",
       content: "",
     },
   });
@@ -48,15 +58,29 @@ const BlogCreatePage = () => {
 
             <Field>
               <FieldLabel>Category</FieldLabel>
-              <Input
-                type="text"
-                placeholder="Enter category"
-                {...register("category")}
+
+              <Controller
+                name="categoryId"
+                control={control}
+                render={({ field }) => (
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select Category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        {categories?.data.map((category) => (
+                          <SelectItem key={category.id} value={category.id}>
+                            {category.name}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                )}
               />
-              {errors.category && (
-                <FieldError>{errors.category.message}</FieldError>
-              )}
             </Field>
+
             <Field>
               <FieldLabel>Content</FieldLabel>
               <Controller

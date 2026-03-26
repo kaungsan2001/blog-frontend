@@ -2,22 +2,17 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useSearchUsers } from "@/features/user/hooks/useUser";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationLink,
-} from "@/components/ui/pagination";
 import UserCard from "../components/UserCard";
 import GoBackButton from "@/components/GoBackButton";
 import Loading from "@/components/Loading";
 import NotFound from "@/components/NotFound";
+import CustomPagination from "@/components/CustomPagination";
 
 const UserSearchPage = () => {
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
   const debouncedQuery = useDebounce(query, 500);
   const { data, isLoading, error } = useSearchUsers(debouncedQuery, page);
-  const totalPages = data?.meta?.totalPages || 0;
 
   if (isLoading) return <Loading />;
   if (error) return <div>Error: {error.message}</div>;
@@ -45,21 +40,11 @@ const UserSearchPage = () => {
           data?.data.map((user) => <UserCard key={user.id} user={user} />)}
       </div>
 
-      <div className="mt-5">
-        <Pagination>
-          <PaginationContent>
-            {Array.from({ length: totalPages }, (_, i) => (
-              <PaginationLink
-                key={i}
-                onClick={() => setPage(i + 1)}
-                isActive={page === i + 1}
-              >
-                {i + 1}
-              </PaginationLink>
-            ))}
-          </PaginationContent>
-        </Pagination>
-      </div>
+      <CustomPagination
+        totalPages={data?.meta.totalPages || 0}
+        page={page}
+        setPage={setPage}
+      />
     </>
   );
 };

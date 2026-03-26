@@ -16,6 +16,8 @@ import SettingsPage from "./features/user/pages/SettingsPage.tsx";
 import UserSearchPage from "./features/user/pages/UserSearchPage.tsx";
 import BlogSearchPage from "./features/blog/pages/BlogSearchPage.tsx";
 import SavedBlogsPage from "./features/blog/pages/SavedBlogsPage.tsx";
+import FollowerListPage from "./features/user/pages/FollowerListPage.tsx";
+import FollowingListPage from "./features/user/pages/FollowingListPage.tsx";
 
 const App = () => {
   return (
@@ -40,6 +42,8 @@ const App = () => {
           <Route path="users/search" element={<UserSearchPage />} />
 
           <Route path="users/profile/:id" element={<ProfilePage />} />
+          <Route path="users/followers" element={<FollowerListPage />} />
+          <Route path="users/following" element={<FollowingListPage />} />
           <Route path="users/settings" element={<SettingsPage />} />
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
