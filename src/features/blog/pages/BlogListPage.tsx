@@ -11,15 +11,20 @@ import { useState } from "react";
 import { buttonVariants } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import Loading from "@/components/Loading";
+import { useGetAllCategories } from "../hooks/useCategory";
+import { Button } from "@/components/ui/button";
 
 const BlogListPage = () => {
   const [page, setPage] = useState(1);
+  const [categoryId, setCategoryId] = useState<string | null>(null);
 
-  const { data, isLoading, error } = useGetBlogs(page);
+  const { data, isLoading, error } = useGetBlogs(page, categoryId);
+  const { data: categories, isLoading: categoriesLoading } =
+    useGetAllCategories();
 
   const totalPages = data?.meta?.totalPages || 0;
 
-  if (isLoading) return <Loading />;
+  if (isLoading || categoriesLoading) return <Loading />;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
@@ -33,6 +38,18 @@ const BlogListPage = () => {
           <Search />
           Search
         </Link>
+      </div>
+
+      <div className="flex gap-4 my-5 ">
+        {categories?.data.map((category) => (
+          <Button
+            key={category.id}
+            onClick={() => setCategoryId(category.id)}
+            className="cursor-pointer"
+          >
+            {category.name} ({category._count.blogs})
+          </Button>
+        ))}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto">

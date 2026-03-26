@@ -5,10 +5,13 @@ import type {
   BlogResponse,
 } from "../types/blogType";
 
-export async function getAllBlogs(page: number) {
-  const res = await api.get<BlogListResponse>(`/blogs?page=${page}`, {
-    withCredentials: true,
-  });
+export async function getAllBlogs(page: number, categoryId?: string | null) {
+  const res = await api.get<BlogListResponse>(
+    `/blogs?page=${page}${categoryId ? `&category=${categoryId}` : ""}`,
+    {
+      withCredentials: true,
+    },
+  );
   return res.data;
 }
 
@@ -63,6 +66,13 @@ export async function saveBlog(blogId: string) {
 
 export async function unsaveBlog(blogId: string) {
   const res = await api.delete(`/blogs/unsave/${blogId}`, {
+    withCredentials: true,
+  });
+  return res.data;
+}
+
+export async function getSavedBlogs(page: number) {
+  const res = await api.get<BlogListResponse>(`/blogs/saved?page=${page}`, {
     withCredentials: true,
   });
   return res.data;

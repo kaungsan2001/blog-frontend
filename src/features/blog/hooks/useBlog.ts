@@ -11,6 +11,7 @@ import {
   searchBlogs,
   saveBlog,
   unsaveBlog,
+  getSavedBlogs,
 } from "../api/blogApi";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -47,10 +48,10 @@ export const useUpdateBlog = (id: string) => {
   });
 };
 
-export const useGetBlogs = (page: number) => {
+export const useGetBlogs = (page: number, categoryId?: string | null) => {
   return useQuery({
-    queryKey: ["blogs", page],
-    queryFn: () => getAllBlogs(page),
+    queryKey: ["blogs", page, categoryId],
+    queryFn: () => getAllBlogs(page, categoryId),
   });
 };
 
@@ -92,5 +93,12 @@ export const useUnsaveBlog = () => {
       toast.success("Blog unsaved successfully");
       queryClient.invalidateQueries({ queryKey: ["blogs"] });
     },
+  });
+};
+
+export const useGetSavedBlogs = (page: number) => {
+  return useQuery({
+    queryKey: ["blogs", "saved", page],
+    queryFn: () => getSavedBlogs(page),
   });
 };

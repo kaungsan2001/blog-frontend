@@ -95,7 +95,7 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
         </div>
       </CardHeader>
       <CardContent className="line-clamp-3 text-muted-foreground text-wrap wrap-break-word flex-1">
-        <Badge variant="outline">{blog.category}</Badge>
+        <Badge variant="outline">{blog.category.name}</Badge>
         <h1 className="font-semibold  line-clamp-2 text-xl">{blog.title}</h1>
         <p
           className="line-clamp-3"

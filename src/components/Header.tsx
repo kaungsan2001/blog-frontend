@@ -70,6 +70,9 @@ const Header = () => {
                     >
                       Profile
                     </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => navigate(`/blogs/saved`)}>
+                      Saved Blogs
+                    </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={() => navigate(`/users/settings`)}
                     >

@@ -18,7 +18,6 @@ export type BlogCreateInput = z.infer<typeof BlogCreateSchema>;
 export interface Blog {
   id: string;
   title: string;
-  category: string;
   content: string;
   createdAt: string;
   updatedAt: string;
@@ -27,6 +26,10 @@ export interface Blog {
     id: string;
     name: string;
     email: string;
+  };
+  category: {
+    id: string;
+    name: string;
   };
   isSaved: boolean;
 }
