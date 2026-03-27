@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   getUserById,
-  getUserBlogs,
   getAllUsers,
   updateProfile,
   searchUsers,
@@ -17,12 +16,6 @@ export const useGetUserById = (id: string) => {
   return useQuery({
     queryKey: ["user", id],
     queryFn: () => getUserById(id),
-  });
-};
-export const useUserBlogs = (id: string, page: number) => {
-  return useQuery({
-    queryKey: ["blogs", id, page],
-    queryFn: () => getUserBlogs(id, page),
   });
 };
 

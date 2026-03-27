@@ -1,23 +1,10 @@
 import api from "@/lib/axios";
-import type {
-  UserProfileResponse,
-  UserBlogsResponse,
-  UserListResponse,
-} from "../types/userTypes";
+import type { UserProfileResponse, UserListResponse } from "../types/userTypes";
 
 export const getUserById = async (id: string) => {
   const res = await api.get<UserProfileResponse>(`/users/details/${id}`, {
     withCredentials: true,
   });
-  return res.data;
-};
-export const getUserBlogs = async (id: string, page: number) => {
-  const res = await api.get<UserBlogsResponse>(
-    `/users/${id}/blogs?page=${page}`,
-    {
-      withCredentials: true,
-    },
-  );
   return res.data;
 };
 

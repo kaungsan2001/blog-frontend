@@ -32,6 +32,7 @@ const BlogCreatePage = () => {
       title: "",
       categoryId: "",
       content: "",
+      isPublished: false,
     },
   });
   const { mutate: createBlog, isPending } = useCreateBlog();
@@ -98,6 +99,13 @@ const BlogCreatePage = () => {
                 <FieldError>{errors.content.message}</FieldError>
               )}
             </Field>
+
+            <FieldLabel>Publish</FieldLabel>
+            <input
+              type="checkbox"
+              {...register("isPublished")}
+              className="w-4 h-4 "
+            />
           </CardContent>
           <CardFooter>
             <Button type="submit" disabled={isPending}>

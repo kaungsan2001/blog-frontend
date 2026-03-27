@@ -12,6 +12,7 @@ import {
   saveBlog,
   unsaveBlog,
   getSavedBlogs,
+  getUserBlogs,
 } from "../api/blogApi";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -28,9 +29,20 @@ export const useCreateBlog = () => {
   });
 };
 
+export const useUserBlogs = (
+  id: string,
+  page: number,
+  isPublished: boolean,
+) => {
+  return useQuery({
+    queryKey: ["blogs", id, page, isPublished],
+    queryFn: () => getUserBlogs(id, page, isPublished),
+  });
+};
+
 export const useGetBlogById = (id: string) => {
   return useQuery({
-    queryKey: ["blog", id],
+    queryKey: ["blogs", id],
     queryFn: () => getBlogById(id),
   });
 };
@@ -42,7 +54,7 @@ export const useUpdateBlog = (id: string) => {
     mutationFn: (data: BlogCreateInput) => updateBlog(id, data),
     onSuccess: () => {
       toast.success("Blog updated successfully");
-      queryClient.invalidateQueries({ queryKey: ["blog", id] });
+      queryClient.invalidateQueries({ queryKey: ["blogs"] });
       navigate(-1);
     },
   });

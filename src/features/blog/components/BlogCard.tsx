@@ -41,7 +41,7 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
             <UserAvatar name={blog.author.name} size="lg" />
             <CardTitle className="text-sm">
               <p>
-                <Link to={`/user/profile/${blog.authorId}`}>
+                <Link to={`/users/profile/${blog.authorId}`}>
                   {blog.author.name}
                 </Link>
               </p>

@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar, MapPin, MoreHorizontal, UserPlus } from "lucide-react";
 import UserBlogsList from "../components/UserBlogsList";
 import { useNavigate } from "react-router";
+import { format } from "date-fns";
 
 const ProfilePage = () => {
   const { id } = useParams();
@@ -125,7 +126,9 @@ const ProfilePage = () => {
                     className="h-3.5 w-3.5 sm:h-4 sm:w-4"
                     aria-hidden="true"
                   />
-                  <span>Joined {data?.data.createdAt}</span>
+                  <span>
+                    Joined on {format(data?.data.createdAt || "", "dd/MM/yyyy")}
+                  </span>
                 </div>
               </div>
 

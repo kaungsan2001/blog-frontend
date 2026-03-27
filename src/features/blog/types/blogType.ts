@@ -11,6 +11,7 @@ export const BlogCreateSchema = z.object({
   title: z.string().min(1, "Title is required"),
   categoryId: z.string().min(1, "Category is required"),
   content: z.string().refine(removeHtmlTags, "Content is required"),
+  isPublished: z.boolean(),
 });
 
 export type BlogCreateInput = z.infer<typeof BlogCreateSchema>;
@@ -23,6 +24,7 @@ export interface Blog {
   updatedAt: string;
   authorId: string;
   categoryId: string;
+  isPublished: boolean;
   author: {
     id: string;
     name: string;
@@ -40,6 +42,16 @@ export interface BlogResponse {
   message: string;
   data: Blog;
 }
+export type UserBlogsResponse = {
+  data: Blog[];
+  message: string;
+  meta: {
+    totalBlogs: number;
+    totalPages: number;
+    currentPage: number;
+    limit: number;
+  };
+};
 
 export type BlogListResponse = {
   success: boolean;

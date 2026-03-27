@@ -3,6 +3,7 @@ import type {
   BlogCreateInput,
   BlogListResponse,
   BlogResponse,
+  UserBlogsResponse,
 } from "../types/blogType";
 
 export async function getAllBlogs(page: number, categoryId?: string | null) {
@@ -14,6 +15,20 @@ export async function getAllBlogs(page: number, categoryId?: string | null) {
   );
   return res.data;
 }
+
+export const getUserBlogs = async (
+  id: string,
+  page: number,
+  isPublished: boolean,
+) => {
+  const res = await api.get<UserBlogsResponse>(
+    `/blogs/user/${id}?page=${page}&isPublished=${isPublished}`,
+    {
+      withCredentials: true,
+    },
+  );
+  return res.data;
+};
 
 export async function createBlog(data: BlogCreateInput) {
   const res = await api.post<BlogResponse>("/blogs/create", data, {

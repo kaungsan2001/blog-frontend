@@ -38,6 +38,7 @@ const UpdateBlogPage = () => {
       title: data?.data.title || "",
       categoryId: data?.data.category.id || "",
       content: data?.data.content || "",
+      isPublished: data?.data.isPublished || false,
     },
   });
 
@@ -105,6 +106,13 @@ const UpdateBlogPage = () => {
                 <FieldError>{errors.content.message}</FieldError>
               )}
             </Field>
+
+            <FieldLabel>Publish</FieldLabel>
+            <input
+              type="checkbox"
+              {...register("isPublished")}
+              className="w-4 h-4 "
+            />
           </CardContent>
           <CardFooter>
             <Button type="submit" disabled={isPending}>
