@@ -8,6 +8,7 @@ const removeHtmlTags = (value: string) => {
 };
 
 export const BlogCreateSchema = z.object({
+  image: z.any().optional(),
   title: z.string().min(1, "Title is required"),
   categoryId: z.string().min(1, "Category is required"),
   content: z.string().refine(removeHtmlTags, "Content is required"),
@@ -19,6 +20,7 @@ export type BlogCreateInput = z.infer<typeof BlogCreateSchema>;
 export interface Blog {
   id: string;
   title: string;
+  image?: string;
   content: string;
   createdAt: string;
   updatedAt: string;

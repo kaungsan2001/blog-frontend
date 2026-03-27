@@ -29,6 +29,7 @@ const BlogCreatePage = () => {
   } = useForm({
     resolver: zodResolver(BlogCreateSchema),
     defaultValues: {
+      image: undefined,
       title: "",
       categoryId: "",
       content: "",
@@ -37,7 +38,15 @@ const BlogCreatePage = () => {
   });
   const { mutate: createBlog, isPending } = useCreateBlog();
   const onSubmit = (data: BlogCreateInput) => {
-    createBlog(data);
+    const formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("content", data.content);
+    formData.append("categoryId", data.categoryId);
+    formData.append("isPublished", data.isPublished.toString());
+    if (data.image && data.image.length > 0) {
+      formData.append("image", data.image[0]);
+    }
+    createBlog(formData);
     reset();
   };
 
@@ -47,6 +56,10 @@ const BlogCreatePage = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Card className="w-full max-w-2xl mx-auto">
           <CardContent className="space-y-4">
+            <Field>
+              <FieldLabel>Image</FieldLabel>
+              <Input type="file" accept="image/*" {...register("image")} />
+            </Field>
             <Field>
               <FieldLabel>Title</FieldLabel>
               <Input

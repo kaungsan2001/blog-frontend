@@ -32,7 +32,13 @@ const BlogDetailPage = () => {
             </Link>
           )}
         </div>
-
+        {data?.data.image && (
+          <img
+            src={data?.data.image}
+            alt={data?.data.title}
+            className="w-full h-100 object-cover my-2 rounded-md"
+          />
+        )}
         <h1 className="text-5xl font-bold mb-10 mt-5">{data?.data.title}</h1>
         <p
           dangerouslySetInnerHTML={{ __html: data?.data.content || "" }}

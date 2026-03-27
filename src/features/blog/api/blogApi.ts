@@ -30,9 +30,12 @@ export const getUserBlogs = async (
   return res.data;
 };
 
-export async function createBlog(data: BlogCreateInput) {
+export async function createBlog(data: FormData) {
   const res = await api.post<BlogResponse>("/blogs/create", data, {
     withCredentials: true,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
   return res.data;
 }

@@ -43,15 +43,15 @@ const Header = () => {
           </h1>
         </div>
         <div className="flex gap-3 items-center">
-          <Link to="/users/list" className="flex items-center gap-2">
-            Authors
-          </Link>
-          <Link to="/blogs/list" className="flex items-center gap-2">
-            <List size={15} />
-            Blogs
-          </Link>
           {isAuthenticated ? (
             <>
+              <Link to="/users/list" className="flex items-center gap-2">
+                Authors
+              </Link>
+              <Link to="/blogs/list" className="flex items-center gap-2">
+                <List size={15} />
+                Blogs
+              </Link>
               <Link to="/blogs/create" className="flex items-center gap-2">
                 <PenSquare size={15} />
                 Write

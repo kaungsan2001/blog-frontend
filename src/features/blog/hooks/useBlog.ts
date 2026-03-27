@@ -20,7 +20,7 @@ export const useCreateBlog = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data: BlogCreateInput) => createBlog(data),
+    mutationFn: (data: FormData) => createBlog(data),
     onSuccess: () => {
       toast.success("Blog created successfully");
       queryClient.invalidateQueries({ queryKey: ["blogs"] });
