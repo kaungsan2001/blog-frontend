@@ -10,6 +10,10 @@ import BlogDetailPage from "./features/blog/pages/BlogDetailPage.tsx";
 import BlogCreatePage from "./features/blog/pages/BlogCreatePage.tsx";
 import ProfilePage from "./features/user/pages/ProfilePage.tsx";
 import DashboardPage from "./features/admin/pages/DashboardPage.tsx";
+import AdminUserListPage from "./features/admin/pages/AdminUserListPage.tsx";
+import AdminBlogListPage from "./features/admin/pages/AdminBlogListPage.tsx";
+import AdminListPage from "./features/admin/pages/AdminListPage.tsx";
+import AdminCategoryListPage from "./features/admin/pages/AdminCategoryListPage.tsx";
 import UpdateBlogPage from "./features/blog/pages/UpdateBlogPage.tsx";
 import BlogListPage from "./features/blog/pages/BlogListPage.tsx";
 import SettingsPage from "./features/user/pages/SettingsPage.tsx";
@@ -48,6 +52,10 @@ const App = () => {
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<DashboardPage />} />
+          <Route path="users" element={<AdminUserListPage />} />
+          <Route path="blogs" element={<AdminBlogListPage />} />
+          <Route path="admins" element={<AdminListPage />} />
+          <Route path="categories" element={<AdminCategoryListPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

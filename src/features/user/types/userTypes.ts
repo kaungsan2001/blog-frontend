@@ -6,6 +6,7 @@ export type User = {
   email: string;
   bio?: string | null;
   address?: string | null;
+  role: "user" | "admin" | "super_admin";
   createdAt: string;
   updatedAt: string;
   _count: {
