@@ -1,6 +1,5 @@
 import api from "@/lib/axios";
 import type {
-  BlogCreateInput,
   BlogListResponse,
   BlogResponse,
   UserBlogsResponse,
@@ -47,9 +46,12 @@ export async function getBlogById(id: string) {
   return res.data;
 }
 
-export async function updateBlog(id: string, data: BlogCreateInput) {
+export async function updateBlog(id: string, data: FormData) {
   const res = await api.put<BlogResponse>(`/blogs/${id}`, data, {
     withCredentials: true,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
   return res.data;
 }

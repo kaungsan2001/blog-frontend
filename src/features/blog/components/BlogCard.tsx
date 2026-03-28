@@ -21,7 +21,9 @@ import { useAuth } from "@/features/auth/useAuth";
 import { useDeleteBlog, useSaveBlog, useUnsaveBlog } from "../hooks/useBlog";
 import UserAvatar from "@/components/UserAvatar";
 import { useNavigate } from "react-router";
+import { AdvancedImage } from "@cloudinary/react";
 import { format } from "date-fns";
+import { myCld } from "@/lib/cloudinary";
 
 const BlogCard = ({ blog }: { blog: Blog }) => {
   const { user, isLoading } = useAuth();
@@ -30,6 +32,7 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
   const { mutate: unsaveBlog } = useUnsaveBlog();
   const navigate = useNavigate();
 
+  const img = myCld.image(blog.image);
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -95,13 +98,7 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
         </div>
       </CardHeader>
       <CardContent className="line-clamp-3 text-muted-foreground text-wrap wrap-break-word flex-1">
-        {blog.image && (
-          <img
-            src={blog.image}
-            alt={blog.title}
-            className="w-full h-48 object-cover mb-2 rounded-md"
-          />
-        )}
+        {blog.image && <AdvancedImage cldImg={img} />}
         <Badge variant="outline">{blog.category.name}</Badge>
         <h1 className="font-semibold  line-clamp-2 text-xl">{blog.title}</h1>
         <p

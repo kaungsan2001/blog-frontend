@@ -1,5 +1,4 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import type { BlogCreateInput } from "../types/blogType";
 import { toast } from "sonner";
 import { useNavigate } from "react-router";
 import {
@@ -51,7 +50,7 @@ export const useUpdateBlog = (id: string) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   return useMutation({
-    mutationFn: (data: BlogCreateInput) => updateBlog(id, data),
+    mutationFn: (data: FormData) => updateBlog(id, data),
     onSuccess: () => {
       toast.success("Blog updated successfully");
       queryClient.invalidateQueries({ queryKey: ["blogs"] });

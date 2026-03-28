@@ -8,17 +8,21 @@ import CommentList from "../components/CommentList";
 import { useAuth } from "@/features/auth/useAuth";
 import { format } from "date-fns";
 import Loading from "@/components/Loading";
+import { AdvancedImage } from "@cloudinary/react";
+import { myCld } from "@/lib/cloudinary";
 
 const BlogDetailPage = () => {
   const { user, isLoading: authLoading } = useAuth();
   const { id } = useParams();
   const { data, isLoading, error } = useGetBlogById(id!);
+
+  const img = myCld.image(data?.data.image);
   if (isLoading || authLoading) return <Loading />;
   if (error) return <div>Error: {error.message}</div>;
   return (
     <>
       <div>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center mb-5">
           <GoBackButton />
           {user?.id === data?.data.authorId && (
             <Link
@@ -32,13 +36,7 @@ const BlogDetailPage = () => {
             </Link>
           )}
         </div>
-        {data?.data.image && (
-          <img
-            src={data?.data.image}
-            alt={data?.data.title}
-            className="w-full h-100 object-cover my-2 rounded-md"
-          />
-        )}
+        {data?.data.image && <AdvancedImage cldImg={img} />}
         <h1 className="text-5xl font-bold mb-10 mt-5">{data?.data.title}</h1>
         <p
           dangerouslySetInnerHTML={{ __html: data?.data.content || "" }}

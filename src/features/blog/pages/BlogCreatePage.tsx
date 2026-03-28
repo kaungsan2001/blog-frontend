@@ -17,9 +17,16 @@ import {
 import "react-quill-new/dist/quill.snow.css";
 import { useCreateBlog } from "../hooks/useBlog";
 import { useGetAllCategories } from "../hooks/useCategory";
+import { useState } from "react";
+import Loading from "@/components/Loading";
 
 const BlogCreatePage = () => {
-  const { data: categories } = useGetAllCategories();
+  const {
+    data: categories,
+    isPending: categoryPending,
+    error: categoryError,
+  } = useGetAllCategories();
+  const [preView, setPreView] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -36,6 +43,7 @@ const BlogCreatePage = () => {
       isPublished: false,
     },
   });
+  const { onChange, ...rest } = register("image"); /// to prevent override onChange
   const { mutate: createBlog, isPending } = useCreateBlog();
   const onSubmit = (data: BlogCreateInput) => {
     const formData = new FormData();
@@ -47,9 +55,15 @@ const BlogCreatePage = () => {
       formData.append("image", data.image[0]);
     }
     createBlog(formData);
+    if (preView) {
+      URL.revokeObjectURL(preView);
+    }
+    setPreView(null);
+
     reset();
   };
-
+  if (categoryPending) return <Loading />;
+  if (categoryError) return <div>Error: {categoryError.message}</div>;
   return (
     <>
       <h1 className="text-2xl font-bold text-center my-4">Write New Blog</h1>
@@ -58,8 +72,33 @@ const BlogCreatePage = () => {
           <CardContent className="space-y-4">
             <Field>
               <FieldLabel>Image</FieldLabel>
-              <Input type="file" accept="image/*" {...register("image")} />
+              {preView && (
+                <img
+                  src={preView}
+                  alt="Preview"
+                  className="w-full h-64 object-cover"
+                />
+              )}
+              <Input
+                type="file"
+                accept="image/*"
+                {...rest}
+                onChange={(e) => {
+                  onChange(e); // react hook form onchange
+                  const file = e.target.files?.[0];
+                  if (file && file instanceof File) {
+                    if (preView) {
+                      URL.revokeObjectURL(preView);
+                    }
+                    setPreView(URL.createObjectURL(file));
+                  }
+                }}
+              />
+              {errors.image?.message && (
+                <FieldError>{errors.image.message}</FieldError>
+              )}
             </Field>
+
             <Field>
               <FieldLabel>Title</FieldLabel>
               <Input
@@ -93,6 +132,9 @@ const BlogCreatePage = () => {
                   </Select>
                 )}
               />
+              {errors.categoryId && (
+                <FieldError>{errors.categoryId.message}</FieldError>
+              )}
             </Field>
 
             <Field>

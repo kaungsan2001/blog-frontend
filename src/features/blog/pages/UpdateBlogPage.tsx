@@ -20,9 +20,13 @@ import { useParams } from "react-router";
 import GoBackButton from "@/components/GoBackButton";
 import Loading from "@/components/Loading";
 import { useGetAllCategories } from "../hooks/useCategory";
+import { myCld } from "@/lib/cloudinary";
+import { useState } from "react";
+import { AdvancedImage } from "@cloudinary/react";
 
 const UpdateBlogPage = () => {
   const { id } = useParams();
+  const [preview, setPreview] = useState<string | undefined>(undefined);
   const { data, isLoading, error } = useGetBlogById(id as string);
   const { data: categories, isLoading: isCategoriesLoading } =
     useGetAllCategories();
@@ -35,6 +39,7 @@ const UpdateBlogPage = () => {
   } = useForm({
     resolver: zodResolver(BlogCreateSchema),
     values: {
+      image: undefined,
       title: data?.data.title || "",
       categoryId: data?.data.category.id || "",
       content: data?.data.content || "",
@@ -42,9 +47,19 @@ const UpdateBlogPage = () => {
     },
   });
 
+  const { onChange, ...rest } = register("image");
+
   const { mutate: updateBlog, isPending } = useUpdateBlog(id as string);
   const onSubmit = (data: BlogCreateInput) => {
-    updateBlog(data);
+    const formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("categoryId", data.categoryId);
+    formData.append("content", data.content);
+    formData.append("isPublished", data.isPublished.toString());
+    if (data.image && data.image[0] instanceof File) {
+      formData.append("image", data.image[0]);
+    }
+    updateBlog(formData);
     reset();
   };
   if (isLoading || isCategoriesLoading) return <Loading />;
@@ -57,6 +72,39 @@ const UpdateBlogPage = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Card className="w-full max-w-2xl mx-auto">
           <CardContent className="space-y-4">
+            <Field>
+              <FieldLabel>Image</FieldLabel>
+              {!preview ? (
+                <AdvancedImage
+                  cldImg={myCld.image(data?.data.image)}
+                  alt="preview"
+                  className="w-full h-48 object-cover"
+                />
+              ) : (
+                <img
+                  src={preview}
+                  alt="preview"
+                  className="w-full h-48 object-cover"
+                />
+              )}
+              <Input
+                type="file"
+                placeholder="Enter image"
+                {...rest}
+                onChange={(e) => {
+                  onChange(e);
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    if (preview) {
+                      URL.revokeObjectURL(preview);
+                    }
+                    setPreview(URL.createObjectURL(file));
+                  }
+                }}
+              />
+              {errors.image && <FieldError>{errors.image.message}</FieldError>}
+            </Field>
+
             <Field>
               <FieldLabel>Title</FieldLabel>
               <Input
