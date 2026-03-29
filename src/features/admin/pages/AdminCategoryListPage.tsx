@@ -8,17 +8,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FolderTree, Plus, Edit2, Trash2, Search } from "lucide-react";
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { useGetAllCategories } from "@/features/blog/hooks/useCategory";
-import {
-  useCreateCategory,
-  useUpdateCategory,
-  useDeleteCategory,
-} from "../hooks/useAdmin";
-import {
-  CategoryDialog,
-  CategoryFormValues,
-} from "../components/CategoryDialog";
+import { useDeleteCategory } from "../hooks/useAdmin";
+import { CategoryDialog } from "../components/CategoryDialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -39,48 +32,32 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Loading from "@/components/Loading";
+import type { AdminCategory } from "../types/adminTypes";
+import { useDebounce } from "@/hooks/useDebounce";
 
 const AdminCategoryListPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [editingCategory, setEditingCategory] = useState<any>(null);
+  const [editingCategory, setEditingCategory] = useState<AdminCategory | null>(
+    null,
+  );
 
-  const { data: categoriesResponse, isLoading } = useGetAllCategories();
-  const { mutate: createCategory, isPending: isCreating } = useCreateCategory();
-  const { mutate: updateCategory, isPending: isUpdating } = useUpdateCategory();
+  const { data: categoriesResponse, isLoading } =
+    useGetAllCategories(debouncedSearchQuery);
+
   const { mutate: deleteCategory } = useDeleteCategory();
 
   const categories = categoriesResponse?.data || [];
-
-  const filteredCategories = useMemo(() => {
-    return categories.filter((c: any) =>
-      c.name.toLowerCase().includes(searchQuery.toLowerCase()),
-    );
-  }, [categories, searchQuery]);
 
   const handleOpenCreate = () => {
     setEditingCategory(null);
     setIsDialogOpen(true);
   };
 
-  const handleOpenEdit = (category: any) => {
+  const handleOpenEdit = (category: AdminCategory) => {
     setEditingCategory(category);
     setIsDialogOpen(true);
-  };
-
-  const handleDialogSubmit = (values: CategoryFormValues) => {
-    if (editingCategory) {
-      updateCategory(
-        { id: editingCategory.id, name: values.name },
-        {
-          onSuccess: () => setIsDialogOpen(false),
-        },
-      );
-    } else {
-      createCategory(values.name, {
-        onSuccess: () => setIsDialogOpen(false),
-      });
-    }
   };
 
   if (isLoading) return <Loading />;
@@ -130,7 +107,7 @@ const AdminCategoryListPage = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredCategories.length === 0 ? (
+                {categories.length === 0 ? (
                   <TableRow>
                     <TableCell
                       colSpan={4}
@@ -140,7 +117,7 @@ const AdminCategoryListPage = () => {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  filteredCategories.map((cat: any) => (
+                  categories.map((cat: AdminCategory) => (
                     <TableRow key={cat.id}>
                       <TableCell>
                         <div className="flex items-center gap-3">
@@ -150,7 +127,7 @@ const AdminCategoryListPage = () => {
                           <div className="min-w-0">
                             <p className="text-sm font-medium">{cat.name}</p>
                             <p className="text-xs text-muted-foreground truncate">
-                              {cat.slug || "No description"}
+                              {cat.description || "No description"}
                             </p>
                           </div>
                         </div>
@@ -220,9 +197,7 @@ const AdminCategoryListPage = () => {
       <CategoryDialog
         open={isDialogOpen}
         onOpenChange={setIsDialogOpen}
-        onSubmit={handleDialogSubmit}
         initialData={editingCategory || undefined}
-        isSubmitting={isCreating || isUpdating}
       />
     </div>
   );

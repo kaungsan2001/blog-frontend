@@ -24,6 +24,7 @@ import { useNavigate } from "react-router";
 import { AdvancedImage } from "@cloudinary/react";
 import { format } from "date-fns";
 import { myCld } from "@/lib/cloudinary";
+import Loading from "@/components/Loading";
 
 const BlogCard = ({ blog }: { blog: Blog }) => {
   const { user, isLoading } = useAuth();
@@ -34,7 +35,7 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
 
   const img = myCld.image(blog.image);
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
   return (
     <Card key={blog.id} className="mb-4">

@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Outlet, NavLink, Link, useLocation } from "react-router";
+import {
+  Outlet,
+  NavLink,
+  Link,
+  useLocation,
+  Navigate,
+  useNavigate,
+} from "react-router";
 import {
   LayoutDashboard,
   Users,
@@ -15,7 +22,9 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-
+import { useAuth } from "@/features/auth/useAuth";
+import Loading from "@/components/Loading";
+import { authClient } from "@/lib/auth-client";
 const navItems = [
   {
     label: "Dashboard",
@@ -48,6 +57,13 @@ const navItems = [
 const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
+  const { user, isLoading } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await authClient.signOut();
+    navigate("/auth/sign-in");
+  };
 
   const currentPage =
     navItems.find(
@@ -55,6 +71,14 @@ const AdminLayout = () => {
         (item.end && location.pathname === item.path) ||
         (!item.end && location.pathname.startsWith(item.path)),
     )?.label ?? "Dashboard";
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (!user || (user.role !== "admin" && user.role !== "super_admin")) {
+    return <Navigate to="/auth/sign-in" replace />;
+  }
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">
@@ -138,18 +162,23 @@ const AdminLayout = () => {
         <div className="p-4">
           <div className="flex items-center gap-3">
             <Avatar>
-              <AvatarFallback>AD</AvatarFallback>
+              <AvatarFallback>
+                {user?.name.slice(0, 2).toUpperCase()}
+              </AvatarFallback>
             </Avatar>
             <div className="flex-1 truncate">
-              <p className="text-sm font-medium truncate">Admin User</p>
+              <p className="text-sm font-medium truncate">{user?.name}</p>
               <p className="text-xs text-muted-foreground truncate">
-                admin@blog.com
+                {user?.email}
               </p>
             </div>
-            <Button variant="ghost" size="icon" className="shrink-0" asChild>
-              <Link to="/">
-                <LogOut className="size-4" />
-              </Link>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="shrink-0"
+              onClick={handleLogout}
+            >
+              <LogOut className="size-4" />
             </Button>
           </div>
         </div>

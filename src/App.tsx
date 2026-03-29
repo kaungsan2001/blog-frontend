@@ -22,6 +22,7 @@ import BlogSearchPage from "./features/blog/pages/BlogSearchPage.tsx";
 import SavedBlogsPage from "./features/blog/pages/SavedBlogsPage.tsx";
 import FollowerListPage from "./features/user/pages/FollowerListPage.tsx";
 import FollowingListPage from "./features/user/pages/FollowingListPage.tsx";
+import NotFoundPage from "./NotFoundPage.tsx";
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
         <Route path="/auth" element={<GuestLayout />}>
           <Route path="sign-in" element={<SignInPage />} />
           <Route path="sign-up" element={<SignUpPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
 
         <Route path="/" element={<AuthLayout />}>
@@ -49,6 +51,7 @@ const App = () => {
           <Route path="users/followers" element={<FollowerListPage />} />
           <Route path="users/following" element={<FollowingListPage />} />
           <Route path="users/settings" element={<SettingsPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<DashboardPage />} />
@@ -56,6 +59,7 @@ const App = () => {
           <Route path="blogs" element={<AdminBlogListPage />} />
           <Route path="admins" element={<AdminListPage />} />
           <Route path="categories" element={<AdminCategoryListPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

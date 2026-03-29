@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -11,52 +10,47 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-
-export interface CategoryFormValues {
-  name: string;
-  description?: string;
-}
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { categorySchema, type CategoryFormValues } from "../types/adminTypes";
+import { useCreateCategory, useUpdateCategory } from "../hooks/useAdmin";
 
 interface CategoryDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSubmit: (values: CategoryFormValues) => void;
-  initialData?: { name: string; description?: string };
-  isSubmitting?: boolean;
+  initialData?: { id: string; name: string; description?: string };
 }
 
 export function CategoryDialog({
   open,
   onOpenChange,
-  onSubmit,
   initialData,
-  isSubmitting,
 }: CategoryDialogProps) {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [error, setError] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<CategoryFormValues>({
+    resolver: zodResolver(categorySchema),
+    values: {
+      name: initialData?.name || "",
+      description: initialData?.description || "",
+    },
+  });
 
-  useEffect(() => {
-    if (open) {
-      if (initialData) {
-        setName(initialData.name);
-        setDescription(initialData.description || "");
-      } else {
-        setName("");
-        setDescription("");
-      }
-      setError("");
-    }
-  }, [open, initialData]);
+  const { mutate: createCategory, isPending: isCreating } =
+    useCreateCategory(onOpenChange);
+  const { mutate: updateCategory, isPending: isUpdating } =
+    useUpdateCategory(onOpenChange);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (name.trim().length < 2) {
-      setError("Name must be at least 2 characters.");
-      return;
+  const onSubmit = (data: CategoryFormValues) => {
+    if (initialData) {
+      updateCategory({ id: initialData.id, data });
+    } else {
+      createCategory(data);
     }
-    setError("");
-    onSubmit({ name, description });
+    reset();
   };
 
   return (
@@ -73,7 +67,7 @@ export function CategoryDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4 pt-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 pt-4">
           <div className="space-y-2">
             <label htmlFor="name" className="text-sm font-medium leading-none">
               Name
@@ -81,10 +75,11 @@ export function CategoryDialog({
             <Input
               id="name"
               placeholder="e.g. Technology"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              {...register("name")}
             />
-            {error && <p className="text-sm text-red-500">{error}</p>}
+            {errors.name && (
+              <p className="text-sm text-red-500">{errors.name.message}</p>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -98,9 +93,13 @@ export function CategoryDialog({
               id="description"
               placeholder="Brief description of this category"
               className="resize-none"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              {...register("description")}
             />
+            {errors.description && (
+              <p className="text-sm text-red-500">
+                {errors.description.message}
+              </p>
+            )}
           </div>
 
           <DialogFooter className="pt-4">
@@ -108,12 +107,12 @@ export function CategoryDialog({
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
-              disabled={isSubmitting}
+              disabled={isCreating || isUpdating}
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting
+            <Button type="submit" disabled={isCreating || isUpdating}>
+              {isCreating || isUpdating
                 ? "Saving..."
                 : initialData
                   ? "Save Changes"

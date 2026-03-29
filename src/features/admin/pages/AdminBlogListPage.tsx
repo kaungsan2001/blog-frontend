@@ -10,8 +10,15 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
 import { Search, Trash2 } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { useGetAdminBlogs, useAdminDeleteBlog } from "../hooks/useAdmin";
 import { useState } from "react";
 import {
@@ -79,100 +86,113 @@ const AdminBlogListPage = () => {
           <CardTitle>Blogs</CardTitle>
           <CardDescription>All blog posts on the platform</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-0">
-          <>
-            {/* Table header */}
-            <div className="hidden sm:grid sm:grid-cols-[1fr_100px_100px_100px_40px] gap-4 px-2 py-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-              <span>Blog</span>
-              <span>Category</span>
-              <span>Status</span>
-              <span>Date</span>
-              <span />
-            </div>
-            <Separator className="hidden sm:block" />
-
-            {blogs.length === 0 ? (
-              <div className="py-8 text-center text-sm text-muted-foreground">
-                No blogs found.
-              </div>
-            ) : (
-              blogs.map((blog) => (
-                <div key={blog.id}>
-                  <div className="grid sm:grid-cols-[1fr_100px_100px_100px_40px] gap-3 sm:gap-4 items-center px-2 py-3">
-                    <div className="flex items-center gap-3">
-                      <Avatar>
-                        <AvatarFallback>
-                          {blog.author?.name?.charAt(0)?.toUpperCase() || "U"}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="min-w-0">
-                        {blog.isPublished ? (
-                          <Link
-                            to={`/blogs/details/${blog.id}`}
-                            className="text-sm font-medium truncate hover:underline"
-                          >
-                            {blog.title.slice(0, 50) +
-                              (blog.title.length > 50 ? "..." : "")}
-                          </Link>
-                        ) : (
-                          <span className="text-sm font-medium truncate">
-                            {blog.title.slice(0, 50) +
-                              (blog.title.length > 50 ? "..." : "")}
-                          </span>
-                        )}
-
-                        <p className="text-xs text-muted-foreground">
-                          {blog.author?.name || "Unknown Author"}
-                        </p>
-                      </div>
-                    </div>
-                    <span className="text-sm">
-                      {blog.category?.name || "Uncategorized"}
-                    </span>
-                    <Badge variant={statusVariant(blog.isPublished)}>
-                      {blog.isPublished ? "Published" : "Draft"}
-                    </Badge>
-                    <span className="text-xs text-muted-foreground hidden sm:block">
-                      {new Date(blog.createdAt).toLocaleDateString()}
-                    </span>
-
-                    {/* Delete action */}
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="hidden sm:flex text-red-500 hover:text-red-600 hover:bg-red-100 dark:hover:bg-red-950"
-                        >
-                          <Trash2 className="size-4" />
-                        </Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            This action cannot be undone. This will permanently
-                            delete the blog post "<strong>{blog.title}</strong>
-                            ".
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction
-                            className="bg-red-500 hover:bg-red-600 focus:ring-red-500"
-                            onClick={() => deleteBlog(blog.id)}
-                          >
-                            Delete
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                  </div>
-                  <Separator />
-                </div>
-              ))
-            )}
-          </>
+        <CardContent>
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Blog</TableHead>
+                  <TableHead className="table-cell">Category</TableHead>
+                  <TableHead className="table-cell">Status</TableHead>
+                  <TableHead className="table-cell">Date</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {blogs.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={5} className="h-24 text-center">
+                      No blogs found.
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  blogs.map((blog) => (
+                    <TableRow key={blog.id}>
+                      <TableCell>
+                        <div className="flex items-center gap-3">
+                          <Avatar>
+                            <AvatarFallback>
+                              {blog.author?.name?.charAt(0)?.toUpperCase() ||
+                                "U"}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="min-w-0">
+                            {blog.isPublished ? (
+                              <Link
+                                to={`/blogs/details/${blog.id}`}
+                                className="text-sm font-medium truncate hover:underline"
+                              >
+                                {blog.title.slice(0, 50) +
+                                  (blog.title.length > 50 ? "..." : "")}
+                              </Link>
+                            ) : (
+                              <span className="text-sm font-medium truncate">
+                                {blog.title.slice(0, 50) +
+                                  (blog.title.length > 50 ? "..." : "")}
+                              </span>
+                            )}
+                            <p className="text-xs text-muted-foreground">
+                              {blog.author?.name || "Unknown Author"}
+                            </p>
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell className="table-cell">
+                        {blog.category?.name || "Uncategorized"}
+                      </TableCell>
+                      <TableCell className="table-cell">
+                        <Badge variant={statusVariant(blog.isPublished)}>
+                          {blog.isPublished ? "Published" : "Draft"}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="table-cell">
+                        {new Date(blog.createdAt).toLocaleDateString()}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex items-center justify-end gap-2">
+                          {/* Delete action */}
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="text-red-500 hover:text-red-600 hover:bg-red-100 dark:hover:bg-red-950"
+                                title="Delete Blog"
+                              >
+                                <Trash2 className="size-4" />
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                  Are you sure?
+                                </AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  This action cannot be undone. This will
+                                  permanently delete the blog post "
+                                  <strong>{blog.title}</strong>
+                                  ".
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction
+                                  className="bg-red-500 hover:bg-red-600 focus:ring-red-500"
+                                  onClick={() => deleteBlog(blog.id)}
+                                >
+                                  Delete
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
         {meta && meta.totalPages > 1 && (
           <CardFooter className="flex items-center justify-between py-4">

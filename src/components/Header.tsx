@@ -45,6 +45,11 @@ const Header = () => {
         <div className="flex gap-3 items-center">
           {isAuthenticated ? (
             <>
+              {(user.role === "admin" || user.role === "super_admin") && (
+                <Link to="/admin" className="flex items-center gap-2">
+                  Admin
+                </Link>
+              )}
               <Link to="/users/list" className="flex items-center gap-2">
                 Authors
               </Link>

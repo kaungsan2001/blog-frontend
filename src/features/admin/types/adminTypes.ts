@@ -1,3 +1,12 @@
+import { z } from "zod";
+
+export const categorySchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters."),
+  description: z.string().optional(),
+});
+
+export type CategoryFormValues = z.infer<typeof categorySchema>;
+
 export type AdminUser = {
   id: string;
   name: string;
@@ -44,9 +53,12 @@ export type DashboardStats = {
 export type AdminCategory = {
   id: string;
   name: string;
-  slug: string;
+  description?: string;
   createdAt: string;
   updatedAt: string;
+  _count: {
+    blogs: number;
+  };
 };
 
 // API response types
@@ -96,4 +108,16 @@ export type AdminCategoryResponse = {
   success: boolean;
   message: string;
   data: AdminCategory;
+};
+
+export type AdminCategoryListResponse = {
+  success: boolean;
+  message: string;
+  data: AdminCategory[];
+  meta: {
+    totalCategories: number;
+    totalPages: number;
+    currentPage: number;
+    limit: number;
+  };
 };

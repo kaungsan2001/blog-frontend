@@ -40,9 +40,6 @@ export const useDeleteUser = () => {
       toast.success("User deleted successfully");
       queryClient.invalidateQueries({ queryKey: ["admin"] });
     },
-    onError: (error: Error) => {
-      toast.error(error.message);
-    },
   });
 };
 
@@ -63,18 +60,15 @@ export const useAdminDeleteBlog = () => {
       toast.success("Blog deleted successfully");
       queryClient.invalidateQueries({ queryKey: ["admin"] });
     },
-    onError: (error: Error) => {
-      toast.error(error.message);
-    },
   });
 };
 
 // ── Admins ───────────────────────────────────────────────────
 
-export const useGetAdminList = (page: number) => {
+export const useGetAdminList = (page: number, searchQuery: string) => {
   return useQuery({
-    queryKey: ["admin", "admins", page],
-    queryFn: () => getAdminList(page),
+    queryKey: ["admin", "admins", page, searchQuery],
+    queryFn: () => getAdminList(page, searchQuery),
   });
 };
 
@@ -85,9 +79,6 @@ export const usePromoteToAdmin = () => {
     onSuccess: () => {
       toast.success("User promoted to admin successfully");
       queryClient.invalidateQueries({ queryKey: ["admin"] });
-    },
-    onError: (error: Error) => {
-      toast.error(error.message);
     },
   });
 };
@@ -100,41 +91,40 @@ export const useDemoteToUser = () => {
       toast.success("Admin demoted to user successfully");
       queryClient.invalidateQueries({ queryKey: ["admin"] });
     },
-    onError: (error: Error) => {
-      toast.error(error.message);
-    },
   });
 };
 
 // ── Categories ───────────────────────────────────────────────
 
-export const useCreateCategory = () => {
+export const useCreateCategory = (onOpenChange: (open: boolean) => void) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (name: string) => createCategory(name),
+    mutationFn: (data: { name: string; description?: string }) =>
+      createCategory(data),
     onSuccess: () => {
       toast.success("Category created successfully");
       queryClient.invalidateQueries({ queryKey: ["admin"] });
       queryClient.invalidateQueries({ queryKey: ["categories"] });
-    },
-    onError: (error: Error) => {
-      toast.error(error.message);
+      onOpenChange(false);
     },
   });
 };
 
-export const useUpdateCategory = () => {
+export const useUpdateCategory = (onOpenChange: (open: boolean) => void) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, name }: { id: string; name: string }) =>
-      updateCategory(id, name),
+    mutationFn: ({
+      id,
+      data,
+    }: {
+      id: string;
+      data: { name: string; description?: string };
+    }) => updateCategory(id, data),
     onSuccess: () => {
       toast.success("Category updated successfully");
       queryClient.invalidateQueries({ queryKey: ["admin"] });
       queryClient.invalidateQueries({ queryKey: ["categories"] });
-    },
-    onError: (error: Error) => {
-      toast.error(error.message);
+      onOpenChange(false);
     },
   });
 };
@@ -147,9 +137,6 @@ export const useDeleteCategory = () => {
       toast.success("Category deleted successfully");
       queryClient.invalidateQueries({ queryKey: ["admin"] });
       queryClient.invalidateQueries({ queryKey: ["categories"] });
-    },
-    onError: (error: Error) => {
-      toast.error(error.message);
     },
   });
 };

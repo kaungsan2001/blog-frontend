@@ -48,10 +48,13 @@ export async function adminDeleteBlog(blogId: string) {
 }
 
 // Admins
-export async function getAdminList(page: number) {
-  const res = await api.get<AdminListResponse>(`/admin/admins?page=${page}`, {
-    withCredentials: true,
-  });
+export async function getAdminList(page: number, search: string) {
+  const res = await api.get<AdminListResponse>(
+    `/admin/admins?page=${page}&search=${search}`,
+    {
+      withCredentials: true,
+    },
+  );
   return res.data;
 }
 
@@ -74,19 +77,23 @@ export async function demoteToUser(userId: string) {
 }
 
 // Categories
-export async function createCategory(name: string) {
-  const res = await api.post<AdminCategoryResponse>(
-    "/admin/categories",
-    { name },
-    { withCredentials: true },
-  );
+export async function createCategory(data: {
+  name: string;
+  description?: string;
+}) {
+  const res = await api.post<AdminCategoryResponse>("/admin/categories", data, {
+    withCredentials: true,
+  });
   return res.data;
 }
 
-export async function updateCategory(categoryId: string, name: string) {
+export async function updateCategory(
+  categoryId: string,
+  data: { name: string; description?: string },
+) {
   const res = await api.put<AdminCategoryResponse>(
     `/admin/categories/${categoryId}`,
-    { name },
+    data,
     { withCredentials: true },
   );
   return res.data;

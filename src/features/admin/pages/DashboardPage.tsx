@@ -24,8 +24,8 @@ function statusVariant(
 
 const DashboardPage = () => {
   const { data: statsData, isLoading: statsLoading } = useGetDashboardStats();
-  const { data: blogsData, isLoading: blogsLoading } = useGetAdminBlogs(1);
-  const { data: usersData, isLoading: usersLoading } = useGetAdminUsers(1);
+  const { data: blogsData, isLoading: blogsLoading } = useGetAdminBlogs(1, "");
+  const { data: usersData, isLoading: usersLoading } = useGetAdminUsers(1, "");
 
   if (statsLoading || blogsLoading || usersLoading) {
     return (

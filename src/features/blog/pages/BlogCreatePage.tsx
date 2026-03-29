@@ -25,7 +25,7 @@ const BlogCreatePage = () => {
     data: categories,
     isPending: categoryPending,
     error: categoryError,
-  } = useGetAllCategories();
+  } = useGetAllCategories("");
   const [preView, setPreView] = useState<string | null>(null);
   const {
     register,
