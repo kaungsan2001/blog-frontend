@@ -10,6 +10,7 @@ import { format } from "date-fns";
 import Loading from "@/components/Loading";
 import { AdvancedImage } from "@cloudinary/react";
 import { myCld } from "@/lib/cloudinary";
+import DOMPurify from "dompurify";
 
 const BlogDetailPage = () => {
   const { user, isLoading: authLoading } = useAuth();
@@ -41,7 +42,9 @@ const BlogDetailPage = () => {
           {data?.data.title}
         </h1>
         <p
-          dangerouslySetInnerHTML={{ __html: data?.data.content || "" }}
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(data?.data.content || ""),
+          }}
           className="text-black dark:text-white wrap-break-word prose w-full max-w-full"
         />
 
