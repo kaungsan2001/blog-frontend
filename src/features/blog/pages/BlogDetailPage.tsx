@@ -20,7 +20,7 @@ const BlogDetailPage = () => {
   if (isLoading || authLoading) return <Loading />;
   if (error) return <div>Error: {error.message}</div>;
   return (
-    <>
+    <div className="w-full max-w-5xl mx-auto mt-3 p-3">
       <div>
         <div className="flex justify-between items-center mb-5">
           <GoBackButton />
@@ -37,7 +37,9 @@ const BlogDetailPage = () => {
           )}
         </div>
         {data?.data.image && <AdvancedImage cldImg={img} />}
-        <h1 className="text-5xl font-bold mb-10 mt-5">{data?.data.title}</h1>
+        <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-10 mt-5">
+          {data?.data.title}
+        </h1>
         <p
           dangerouslySetInnerHTML={{ __html: data?.data.content || "" }}
           className="text-black dark:text-white wrap-break-word prose w-full max-w-full"
@@ -49,11 +51,11 @@ const BlogDetailPage = () => {
         </div>
       </div>
       {/* comment section */}
-      <section className="mt-10 mb-20">
+      <section className="mt-10 mb-10">
         <CommentForm blogId={id!} />
         <CommentList blogId={id!} />
       </section>
-    </>
+    </div>
   );
 };
 

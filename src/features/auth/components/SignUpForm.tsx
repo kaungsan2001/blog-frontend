@@ -49,8 +49,8 @@ export function SignUpForm({ ...props }: React.ComponentProps<typeof Card>) {
         navigate("/");
         setLoading(false);
       },
-      onError: () => {
-        toast.error("Account creation failed");
+      onError: (error) => {
+        toast.error(error.error.message);
         setLoading(false);
       },
     });

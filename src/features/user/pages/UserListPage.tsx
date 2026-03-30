@@ -15,7 +15,7 @@ const UserListPage = () => {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <>
+    <div className="p-3">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Authors</h1>
 
@@ -39,7 +39,7 @@ const UserListPage = () => {
         page={page}
         setPage={setPage}
       />
-    </>
+    </div>
   );
 };
 

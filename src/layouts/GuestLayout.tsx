@@ -1,4 +1,3 @@
-import Header from "@/components/Header";
 import { Outlet } from "react-router";
 import { Navigate } from "react-router";
 import { useAuth } from "@/features/auth/useAuth";
@@ -20,7 +19,6 @@ const GuestLayout = () => {
   }
   return (
     <div>
-      <Header />
       <Outlet />
     </div>
   );

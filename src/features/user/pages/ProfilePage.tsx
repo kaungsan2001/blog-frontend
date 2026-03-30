@@ -34,7 +34,7 @@ const ProfilePage = () => {
     return <div>Error: {error.message}</div>;
   }
   return (
-    <div className="">
+    <div className="px-3">
       {/* Cover Image with Gradient Animation */}
       <div
         className="relative h-48 md:h-64 w-full overflow-hidden rounded-b-2xl"

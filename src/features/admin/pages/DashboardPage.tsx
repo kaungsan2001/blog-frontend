@@ -23,14 +23,36 @@ function statusVariant(
 }
 
 const DashboardPage = () => {
-  const { data: statsData, isLoading: statsLoading } = useGetDashboardStats();
-  const { data: blogsData, isLoading: blogsLoading } = useGetAdminBlogs(1, "");
-  const { data: usersData, isLoading: usersLoading } = useGetAdminUsers(1, "");
+  const {
+    data: statsData,
+    isLoading: statsLoading,
+    error: statsError,
+  } = useGetDashboardStats();
+  const {
+    data: blogsData,
+    isLoading: blogsLoading,
+    error: blogsError,
+  } = useGetAdminBlogs(1, "");
+  const {
+    data: usersData,
+    isLoading: usersLoading,
+    error: usersError,
+  } = useGetAdminUsers(1, "");
 
   if (statsLoading || blogsLoading || usersLoading) {
     return (
       <div className="flex h-64 items-center justify-center">
         <Loader2 className="size-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
+  if (statsError || blogsError || usersError) {
+    return (
+      <div className="flex h-64 items-center justify-center">
+        <p className="text-red-500">
+          {statsError?.message || blogsError?.message || usersError?.message}
+        </p>
       </div>
     );
   }

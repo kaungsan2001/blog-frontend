@@ -18,7 +18,7 @@ const BlogSearchPage = () => {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <>
+    <div className="px-3 py-2">
       <GoBackButton />
       <div className="w-full max-w-2xl mx-auto my-4">
         <Input
@@ -46,7 +46,7 @@ const BlogSearchPage = () => {
         page={page}
         setPage={setPage}
       />
-    </>
+    </div>
   );
 };
 

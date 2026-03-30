@@ -11,7 +11,7 @@ const SavedBlogsPage = () => {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div>
+    <div className="px-3 py-2">
       <h1 className="text-2xl font-bold text-center my-4">Saved Blogs</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto">
         {data?.data.map((blog) => (

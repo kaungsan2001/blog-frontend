@@ -22,7 +22,7 @@ const CommentList = ({ blogId }: { blogId: string }) => {
 
   return (
     <div className="mt-5">
-      <h2 className="text-2xl font-bold mb-5">Comments</h2>
+      <h2 className="text-lg font-bold mb-5">Comments</h2>
       <ul className="space-y-5 max-h-[calc(100vh-200px)] overflow-y-scroll">
         {/* no comments */}
         {data?.data.length === 0 && <p>No comments yet</p>}

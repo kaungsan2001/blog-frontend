@@ -30,7 +30,7 @@ const CommentForm = ({ blogId }: { blogId: string }) => {
   };
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-5">Write A Comment</h2>
+      <h2 className="text-lg font-bold mb-5">Write A Comment</h2>
       {!isAuthenticated && (
         <small className="text-sm text-red-500 mb-5 block">
           Please login to comment.{" "}

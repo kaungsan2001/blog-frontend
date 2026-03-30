@@ -65,7 +65,7 @@ const BlogCreatePage = () => {
   if (categoryPending) return <Loading />;
   if (categoryError) return <div>Error: {categoryError.message}</div>;
   return (
-    <>
+    <div className="px-3">
       <h1 className="text-2xl font-bold text-center my-4">Write New Blog</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Card className="w-full max-w-2xl mx-auto">
@@ -169,7 +169,7 @@ const BlogCreatePage = () => {
           </CardFooter>
         </Card>
       </form>
-    </>
+    </div>
   );
 };
 

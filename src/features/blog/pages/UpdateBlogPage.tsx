@@ -65,7 +65,7 @@ const UpdateBlogPage = () => {
   if (isLoading || isCategoriesLoading) return <Loading />;
   if (error) return <div>Error: {error.message}</div>;
   return (
-    <>
+    <div className="px-3 py-2">
       <GoBackButton />
       <h1 className="text-2xl font-bold text-center my-2">Edit Blog</h1>
 
@@ -169,7 +169,7 @@ const UpdateBlogPage = () => {
           </CardFooter>
         </Card>
       </form>
-    </>
+    </div>
   );
 };
 

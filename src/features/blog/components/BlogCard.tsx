@@ -25,6 +25,17 @@ import { AdvancedImage } from "@cloudinary/react";
 import { format } from "date-fns";
 import { myCld } from "@/lib/cloudinary";
 import Loading from "@/components/Loading";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const BlogCard = ({ blog }: { blog: Blog }) => {
   const { user, isLoading } = useAuth();
@@ -85,12 +96,29 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
                     >
                       Edit
                     </DropdownMenuItem>
-                    <DropdownMenuItem
-                      variant="destructive"
-                      onClick={() => deleteBlog(blog.id)}
-                    >
-                      Delete
-                    </DropdownMenuItem>
+                    <AlertDialog>
+                      <AlertDialogTrigger>
+                        <Button variant="secondary" className="w-full">
+                          Delete
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Delete Blog?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Are you sure you want to delete this blog?
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction
+                            onClick={() => deleteBlog(blog.id)}
+                          >
+                            Delete
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </>
                 )}
               </DropdownMenuGroup>
@@ -100,12 +128,10 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
       </CardHeader>
       <CardContent className="line-clamp-3 text-muted-foreground text-wrap wrap-break-word flex-1">
         {blog.image && <AdvancedImage cldImg={img} />}
-        <Badge variant="outline">{blog.category.name}</Badge>
+        <Badge variant="outline" className="my-2">
+          {blog.category.name}
+        </Badge>
         <h1 className="font-semibold  line-clamp-2 text-xl">{blog.title}</h1>
-        <p
-          className="line-clamp-3"
-          dangerouslySetInnerHTML={{ __html: blog.content }}
-        />
       </CardContent>
       <CardFooter className="flex justify-between">
         <Link

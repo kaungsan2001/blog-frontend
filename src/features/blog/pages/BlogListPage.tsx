@@ -16,13 +16,13 @@ const BlogListPage = () => {
 
   const { data, isLoading, error } = useGetBlogs(page, categoryId);
   const { data: categories, isLoading: categoriesLoading } =
-    useGetAllCategories();
+    useGetAllCategories("");
 
   if (isLoading || categoriesLoading) return <Loading />;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <>
+    <div className="p-3">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold text-center my-4">Blogs</h1>
         <Link
@@ -34,12 +34,13 @@ const BlogListPage = () => {
         </Link>
       </div>
 
-      <div className="flex gap-4 my-5 ">
+      <div className="flex gap-4 my-5 flex-wrap">
         {categories?.data.map((category) => (
           <Button
             key={category.id}
             onClick={() => setCategoryId(category.id)}
             className="cursor-pointer"
+            variant={"outline"}
           >
             {category.name} ({category._count.blogs})
           </Button>
@@ -56,7 +57,7 @@ const BlogListPage = () => {
         page={page}
         setPage={setPage}
       />
-    </>
+    </div>
   );
 };
 

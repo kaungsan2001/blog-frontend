@@ -49,8 +49,8 @@ export function SignInForm({
         setLoading(false);
         navigate("/");
       },
-      onError: () => {
-        toast.error("Login failed");
+      onError: (error) => {
+        toast.error(error.error.message);
         setLoading(false);
       },
     });
