@@ -1,5 +1,5 @@
 import Header from "@/components/Header";
-import { Outlet, Navigate, useNavigate } from "react-router";
+import { Outlet, Navigate, useNavigate, Link } from "react-router";
 import { useAuth } from "@/features/auth/useAuth";
 import Loading from "@/components/Loading";
 import { useState } from "react";
@@ -11,6 +11,7 @@ import UserAvatar from "@/components/UserAvatar";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { Suspense } from "react";
 
 const NavLinks = [
   {
@@ -86,7 +87,12 @@ const AuthLayout = () => {
         onClick={() => setSideBarOpen(false)}
       >
         <div className="py-3">
-          <h1 className="font-bold text-2xl text-center">InkLines</h1>
+          <h1 className="font-bold text-2xl">
+            <Link to="/" className="flex items-center gap-1 justify-center">
+              <img src="/inkpen.svg" alt="" className="w-8 h-8" />
+              InkLines
+            </Link>
+          </h1>
           <Separator />
           <nav className="flex flex-col gap-2 px-3 py-3 ">
             <>
@@ -101,6 +107,7 @@ const AuthLayout = () => {
               <Separator className="bg-secondary border-b" />
               {NavLinks.map((navLink) => (
                 <NavLink
+                  key={navLink.path}
                   to={navLink.path}
                   className={({ isActive }) =>
                     cn(
@@ -144,7 +151,9 @@ const AuthLayout = () => {
       </aside>
       <Header sideBarOpen={sideBarOpen} setSideBarOpen={setSideBarOpen} />
       <main className="w-full">
-        <Outlet />
+        <Suspense fallback={<Loading />}>
+          <Outlet />
+        </Suspense>
       </main>
     </div>
   );

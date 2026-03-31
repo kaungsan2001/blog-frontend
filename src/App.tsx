@@ -1,28 +1,63 @@
 import { BrowserRouter, Routes, Route } from "react-router";
+import { lazy } from "react";
 import SignInPage from "./features/auth/pages/SignInPage.tsx";
-import UserListPage from "./features/user/pages/UserListPage.tsx";
+import SignUpPage from "./features/auth/pages/SignUpPage.tsx";
 import GuestLayout from "./layouts/GuestLayout.tsx";
 import AdminLayout from "./layouts/AdminLayout.tsx";
 import AuthLayout from "./layouts/AuthLayout.tsx";
-import HomePage from "./features/blog/pages/HomePage.tsx";
-import SignUpPage from "./features/auth/pages/SignUpPage.tsx";
-import BlogDetailPage from "./features/blog/pages/BlogDetailPage.tsx";
-import BlogCreatePage from "./features/blog/pages/BlogCreatePage.tsx";
-import ProfilePage from "./features/user/pages/ProfilePage.tsx";
-import DashboardPage from "./features/admin/pages/DashboardPage.tsx";
-import AdminUserListPage from "./features/admin/pages/AdminUserListPage.tsx";
-import AdminBlogListPage from "./features/admin/pages/AdminBlogListPage.tsx";
-import AdminListPage from "./features/admin/pages/AdminListPage.tsx";
-import AdminCategoryListPage from "./features/admin/pages/AdminCategoryListPage.tsx";
-import UpdateBlogPage from "./features/blog/pages/UpdateBlogPage.tsx";
-import BlogListPage from "./features/blog/pages/BlogListPage.tsx";
-import SettingsPage from "./features/user/pages/SettingsPage.tsx";
-import UserSearchPage from "./features/user/pages/UserSearchPage.tsx";
-import BlogSearchPage from "./features/blog/pages/BlogSearchPage.tsx";
-import SavedBlogsPage from "./features/blog/pages/SavedBlogsPage.tsx";
-import FollowerListPage from "./features/user/pages/FollowerListPage.tsx";
-import FollowingListPage from "./features/user/pages/FollowingListPage.tsx";
-import NotFoundPage from "./NotFoundPage.tsx";
+
+const UserListPage = lazy(
+  () => import("./features/user/pages/UserListPage.tsx"),
+);
+
+const HomePage = lazy(() => import("./features/blog/pages/HomePage.tsx"));
+const BlogDetailPage = lazy(
+  () => import("./features/blog/pages/BlogDetailPage.tsx"),
+);
+const BlogCreatePage = lazy(
+  () => import("./features/blog/pages/BlogCreatePage.tsx"),
+);
+const ProfilePage = lazy(() => import("./features/user/pages/ProfilePage.tsx"));
+const DashboardPage = lazy(
+  () => import("./features/admin/pages/DashboardPage.tsx"),
+);
+const AdminUserListPage = lazy(
+  () => import("./features/admin/pages/AdminUserListPage.tsx"),
+);
+const AdminBlogListPage = lazy(
+  () => import("./features/admin/pages/AdminBlogListPage.tsx"),
+);
+const AdminListPage = lazy(
+  () => import("./features/admin/pages/AdminListPage.tsx"),
+);
+const AdminCategoryListPage = lazy(
+  () => import("./features/admin/pages/AdminCategoryListPage.tsx"),
+);
+const UpdateBlogPage = lazy(
+  () => import("./features/blog/pages/UpdateBlogPage.tsx"),
+);
+const BlogListPage = lazy(
+  () => import("./features/blog/pages/BlogListPage.tsx"),
+);
+const SettingsPage = lazy(
+  () => import("./features/user/pages/SettingsPage.tsx"),
+);
+const UserSearchPage = lazy(
+  () => import("./features/user/pages/UserSearchPage.tsx"),
+);
+const BlogSearchPage = lazy(
+  () => import("./features/blog/pages/BlogSearchPage.tsx"),
+);
+const SavedBlogsPage = lazy(
+  () => import("./features/blog/pages/SavedBlogsPage.tsx"),
+);
+const FollowerListPage = lazy(
+  () => import("./features/user/pages/FollowerListPage.tsx"),
+);
+const FollowingListPage = lazy(
+  () => import("./features/user/pages/FollowingListPage.tsx"),
+);
+const NotFoundPage = lazy(() => import("./NotFoundPage.tsx"));
 
 const App = () => {
   return (

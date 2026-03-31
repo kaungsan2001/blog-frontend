@@ -18,7 +18,7 @@ const UserSearchPage = () => {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <>
+    <div className="px-3 pt-3">
       <GoBackButton />
       <div className="w-full max-w-2xl mx-auto my-4">
         <Input
@@ -45,7 +45,7 @@ const UserSearchPage = () => {
         page={page}
         setPage={setPage}
       />
-    </>
+    </div>
   );
 };
 

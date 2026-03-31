@@ -45,7 +45,7 @@ const BlogDetailPage = () => {
           dangerouslySetInnerHTML={{
             __html: DOMPurify.sanitize(data?.data.content || ""),
           }}
-          className="text-black dark:text-white wrap-break-word prose w-full max-w-full"
+          className="text-black dark:text-white wrap-break-word prose w-full max-w-full quill-content"
         />
 
         <div className="mt-5 text-right flex flex-col gap-2">

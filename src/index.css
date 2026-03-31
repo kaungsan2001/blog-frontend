@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 @custom-variant dark (&:is(.dark *));
 
@@ -37,9 +38,9 @@
   --sidebar-accent-foreground: oklch(0.2046 0 0);
   --sidebar-border: oklch(0.9219 0 0);
   --sidebar-ring: oklch(0.709 0 0);
-  --font-sans: Geist Mono, monospace;
-  --font-serif: Geist Mono, monospace;
-  --font-mono: Geist Mono, monospace;
+  --font-sans: "Inter", sans-serif;
+  --font-serif: "Inter", sans-serif;
+  --font-mono: "Inter", sans-serif;
   --radius: 0rem;
   --shadow-x: 0px;
   --shadow-y: 1px;
@@ -70,7 +71,7 @@
   --card-foreground: oklch(0.9851 0 0);
   --popover: oklch(0.2686 0 0);
   --popover-foreground: oklch(0.9851 0 0);
-  --primary: oklch(0.645 0.246 16.439);
+  --primary: oklch(0.5555 0 0);
   --primary-foreground: oklch(0.9851 0 0);
   --secondary: oklch(0.2686 0 0);
   --secondary-foreground: oklch(0.9851 0 0);
@@ -96,9 +97,9 @@
   --sidebar-accent-foreground: oklch(0.9851 0 0);
   --sidebar-border: oklch(1 0 0);
   --sidebar-ring: oklch(0.4386 0 0);
-  --font-sans: Geist Mono, monospace;
-  --font-serif: Geist Mono, monospace;
-  --font-mono: Geist Mono, monospace;
+  --font-sans: "Inter", sans-serif;
+  --font-serif: "Inter", sans-serif;
+  --font-mono: "Inter", sans-serif;
   --radius: 0rem;
   --shadow-x: 0px;
   --shadow-y: 1px;
@@ -187,17 +188,6 @@
   color: #e5e5e5; /* light text */
 }
 
-/* Headings fix */
-.dark .quill-content h1,
-.dark .quill-content h2,
-.dark .quill-content h3,
-.dark .quill-content h4,
-.dark .quill-content h5,
-.dark .quill-content h6 {
-  color: #ffffff;
-  font-weight: 600; /* reduce boldness */
-}
-
-.dark .quill-content p {
-  color: #ffffff;
+.dark .quill-content :where(*) {
+  color: #ffffff !important;
 }

@@ -46,6 +46,12 @@ export default function HomePage() {
             <BlogCard key={blog.id} blog={blog} />
           ))}
         </div>
+
+        <div className="flex justify-center mt-5">
+          <Button variant={"outline"} className="mx-auto">
+            <Link to="/blogs/list">View All Blogs</Link>
+          </Button>
+        </div>
       </div>
     </>
   );

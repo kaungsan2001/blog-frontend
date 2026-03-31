@@ -35,10 +35,27 @@ const BlogListPage = () => {
       </div>
 
       <div className="flex gap-4 my-5 flex-wrap">
+        <Button
+          onClick={() => {
+            if (page !== 1) {
+              setPage(1);
+            }
+            setCategoryId(null);
+          }}
+          className="cursor-pointer"
+          variant={"outline"}
+        >
+          All
+        </Button>
         {categories?.data.map((category) => (
           <Button
             key={category.id}
-            onClick={() => setCategoryId(category.id)}
+            onClick={() => {
+              if (page !== 1) {
+                setPage(1);
+              }
+              setCategoryId(category.id);
+            }}
             className="cursor-pointer"
             variant={"outline"}
           >

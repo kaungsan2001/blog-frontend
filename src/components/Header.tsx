@@ -48,11 +48,15 @@ const Header = ({
           <Button
             onClick={() => setSideBarOpen(!sideBarOpen)}
             variant={"outline"}
+            className="block md:hidden lg:hidden"
           >
             <Menu size={15} />
           </Button>
           <h1 className="text-xl font-bold">
-            <Link to="/">InkLines</Link>
+            <Link to="/" className="flex items-center gap-1">
+              <img src="/inkpen.svg" alt="" className="w-8 h-8" />
+              InkLines
+            </Link>
           </h1>
         </div>
         <div className="flex gap-3 items-center">
