@@ -1,57 +1,28 @@
 import { BrowserRouter, Routes, Route } from "react-router";
-import { lazy } from "react";
 import SignInPage from "./features/auth/pages/SignInPage";
 import SignUpPage from "./features/auth/pages/SignUpPage";
 import GuestLayout from "./layouts/GuestLayout";
 import AdminLayout from "./layouts/AdminLayout";
 import AuthLayout from "./layouts/AuthLayout";
-
-const UserListPage = lazy(() => import("./features/user/pages/UserListPage"));
-
-const HomePage = lazy(() => import("./features/blog/pages/HomePage"));
-const BlogDetailPage = lazy(
-  () => import("./features/blog/pages/BlogDetailPage"),
-);
-const BlogCreatePage = lazy(
-  () => import("./features/blog/pages/BlogCreatePage"),
-);
-const ProfilePage = lazy(() => import("./features/user/pages/ProfilePage"));
-const DashboardPage = lazy(
-  () => import("./features/admin/pages/DashboardPage"),
-);
-const AdminUserListPage = lazy(
-  () => import("./features/admin/pages/AdminUserListPage"),
-);
-const AdminBlogListPage = lazy(
-  () => import("./features/admin/pages/AdminBlogListPage"),
-);
-const AdminListPage = lazy(
-  () => import("./features/admin/pages/AdminListPage"),
-);
-const AdminCategoryListPage = lazy(
-  () => import("./features/admin/pages/AdminCategoryListPage"),
-);
-const UpdateBlogPage = lazy(
-  () => import("./features/blog/pages/UpdateBlogPage"),
-);
-const BlogListPage = lazy(() => import("./features/blog/pages/BlogListPage"));
-const SettingsPage = lazy(() => import("./features/user/pages/SettingsPage"));
-const UserSearchPage = lazy(
-  () => import("./features/user/pages/UserSearchPage"),
-);
-const BlogSearchPage = lazy(
-  () => import("./features/blog/pages/BlogSearchPage"),
-);
-const SavedBlogsPage = lazy(
-  () => import("./features/blog/pages/SavedBlogsPage"),
-);
-const FollowerListPage = lazy(
-  () => import("./features/user/pages/FollowerListPage"),
-);
-const FollowingListPage = lazy(
-  () => import("./features/user/pages/FollowingListPage"),
-);
-const NotFoundPage = lazy(() => import("./NotFoundPage"));
+import UserListPage from "./features/user/pages/UserListPage";
+import HomePage from "./features/blog/pages/HomePage";
+import BlogDetailPage from "./features/blog/pages/BlogDetailPage";
+import BlogCreatePage from "./features/blog/pages/BlogCreatePage";
+import ProfilePage from "./features/user/pages/ProfilePage";
+import DashboardPage from "./features/admin/pages/DashboardPage";
+import AdminUserListPage from "./features/admin/pages/AdminUserListPage";
+import AdminBlogListPage from "./features/admin/pages/AdminBlogListPage";
+import AdminListPage from "./features/admin/pages/AdminListPage";
+import AdminCategoryListPage from "./features/admin/pages/AdminCategoryListPage";
+import UpdateBlogPage from "./features/blog/pages/UpdateBlogPage";
+import BlogListPage from "./features/blog/pages/BlogListPage";
+import SettingsPage from "./features/user/pages/SettingsPage";
+import UserSearchPage from "./features/user/pages/UserSearchPage";
+import BlogSearchPage from "./features/blog/pages/BlogSearchPage";
+import SavedBlogsPage from "./features/blog/pages/SavedBlogsPage";
+import FollowerListPage from "./features/user/pages/FollowerListPage";
+import FollowingListPage from "./features/user/pages/FollowingListPage";
+import NotFoundPage from "./NotFoundPage";
 
 const App = () => {
   return (
