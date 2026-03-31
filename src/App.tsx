@@ -1,63 +1,57 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import { lazy } from "react";
-import SignInPage from "./features/auth/pages/SignInPage.tsx";
-import SignUpPage from "./features/auth/pages/SignUpPage.tsx";
-import GuestLayout from "./layouts/GuestLayout.tsx";
-import AdminLayout from "./layouts/AdminLayout.tsx";
-import AuthLayout from "./layouts/AuthLayout.tsx";
+import SignInPage from "./features/auth/pages/SignInPage";
+import SignUpPage from "./features/auth/pages/SignUpPage";
+import GuestLayout from "./layouts/GuestLayout";
+import AdminLayout from "./layouts/AdminLayout";
+import AuthLayout from "./layouts/AuthLayout";
 
-const UserListPage = lazy(
-  () => import("./features/user/pages/UserListPage.tsx"),
-);
+const UserListPage = lazy(() => import("./features/user/pages/UserListPage"));
 
-const HomePage = lazy(() => import("./features/blog/pages/HomePage.tsx"));
+const HomePage = lazy(() => import("./features/blog/pages/HomePage"));
 const BlogDetailPage = lazy(
-  () => import("./features/blog/pages/BlogDetailPage.tsx"),
+  () => import("./features/blog/pages/BlogDetailPage"),
 );
 const BlogCreatePage = lazy(
-  () => import("./features/blog/pages/BlogCreatePage.tsx"),
+  () => import("./features/blog/pages/BlogCreatePage"),
 );
-const ProfilePage = lazy(() => import("./features/user/pages/ProfilePage.tsx"));
+const ProfilePage = lazy(() => import("./features/user/pages/ProfilePage"));
 const DashboardPage = lazy(
-  () => import("./features/admin/pages/DashboardPage.tsx"),
+  () => import("./features/admin/pages/DashboardPage"),
 );
 const AdminUserListPage = lazy(
-  () => import("./features/admin/pages/AdminUserListPage.tsx"),
+  () => import("./features/admin/pages/AdminUserListPage"),
 );
 const AdminBlogListPage = lazy(
-  () => import("./features/admin/pages/AdminBlogListPage.tsx"),
+  () => import("./features/admin/pages/AdminBlogListPage"),
 );
 const AdminListPage = lazy(
-  () => import("./features/admin/pages/AdminListPage.tsx"),
+  () => import("./features/admin/pages/AdminListPage"),
 );
 const AdminCategoryListPage = lazy(
-  () => import("./features/admin/pages/AdminCategoryListPage.tsx"),
+  () => import("./features/admin/pages/AdminCategoryListPage"),
 );
 const UpdateBlogPage = lazy(
-  () => import("./features/blog/pages/UpdateBlogPage.tsx"),
+  () => import("./features/blog/pages/UpdateBlogPage"),
 );
-const BlogListPage = lazy(
-  () => import("./features/blog/pages/BlogListPage.tsx"),
-);
-const SettingsPage = lazy(
-  () => import("./features/user/pages/SettingsPage.tsx"),
-);
+const BlogListPage = lazy(() => import("./features/blog/pages/BlogListPage"));
+const SettingsPage = lazy(() => import("./features/user/pages/SettingsPage"));
 const UserSearchPage = lazy(
-  () => import("./features/user/pages/UserSearchPage.tsx"),
+  () => import("./features/user/pages/UserSearchPage"),
 );
 const BlogSearchPage = lazy(
-  () => import("./features/blog/pages/BlogSearchPage.tsx"),
+  () => import("./features/blog/pages/BlogSearchPage"),
 );
 const SavedBlogsPage = lazy(
-  () => import("./features/blog/pages/SavedBlogsPage.tsx"),
+  () => import("./features/blog/pages/SavedBlogsPage"),
 );
 const FollowerListPage = lazy(
-  () => import("./features/user/pages/FollowerListPage.tsx"),
+  () => import("./features/user/pages/FollowerListPage"),
 );
 const FollowingListPage = lazy(
-  () => import("./features/user/pages/FollowingListPage.tsx"),
+  () => import("./features/user/pages/FollowingListPage"),
 );
-const NotFoundPage = lazy(() => import("./NotFoundPage.tsx"));
+const NotFoundPage = lazy(() => import("./NotFoundPage"));
 
 const App = () => {
   return (
