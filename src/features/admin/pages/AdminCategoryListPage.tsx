@@ -175,8 +175,8 @@ const AdminCategoryListPage = () => {
                                 <AlertDialogDescription>
                                   This action cannot be undone. "
                                   <strong>{cat.name}</strong>" will be
-                                  permanently deleted. Posts under this category
-                                  may become uncategorized.
+                                  permanently deleted. All of the blogs under
+                                  this category will also be deleted.
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
                               <AlertDialogFooter>
