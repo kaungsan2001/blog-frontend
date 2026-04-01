@@ -5,7 +5,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Edit } from "lucide-react";
 import CommentForm from "../components/CommentForm";
 import CommentList from "../components/CommentList";
-import { useAuth } from "@/features/auth/useAuth";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 import { format } from "date-fns";
 import Loading from "@/components/Loading";
 import { AdvancedImage } from "@cloudinary/react";
@@ -13,12 +13,12 @@ import { myCld } from "@/lib/cloudinary";
 import DOMPurify from "dompurify";
 
 const BlogDetailPage = () => {
-  const { user, isLoading: authLoading } = useAuth();
+  const { user } = useAuth();
   const { id } = useParams();
   const { data, isLoading, error } = useGetBlogById(id!);
 
   const img = myCld.image(data?.data.image);
-  if (isLoading || authLoading) return <Loading />;
+  if (isLoading) return <Loading />;
   if (error) return <div>Error: {error.message}</div>;
   return (
     <div className="w-full max-w-5xl mx-auto mt-3 p-3">

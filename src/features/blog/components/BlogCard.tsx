@@ -17,14 +17,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useAuth } from "@/features/auth/useAuth";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useDeleteBlog, useSaveBlog, useUnsaveBlog } from "../hooks/useBlog";
 import UserAvatar from "@/components/UserAvatar";
 import { useNavigate } from "react-router";
 import { AdvancedImage } from "@cloudinary/react";
 import { format } from "date-fns";
 import { myCld } from "@/lib/cloudinary";
-import Loading from "@/components/Loading";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -38,16 +37,13 @@ import {
 } from "@/components/ui/alert-dialog";
 
 const BlogCard = ({ blog }: { blog: Blog }) => {
-  const { user, isLoading } = useAuth();
+  const { user } = useAuth();
   const { mutate: deleteBlog } = useDeleteBlog();
   const { mutate: saveBlog } = useSaveBlog();
   const { mutate: unsaveBlog } = useUnsaveBlog();
   const navigate = useNavigate();
 
   const img = myCld.image(blog.image);
-  if (isLoading) {
-    return <Loading />;
-  }
   return (
     <Card key={blog.id} className="mb-4">
       <CardHeader>

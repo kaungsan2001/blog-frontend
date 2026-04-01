@@ -8,7 +8,7 @@ import {
   type CommentCreateInput,
 } from "../types/commentType";
 import { useCreateComment } from "../hooks/useComment";
-import { useAuth } from "@/features/auth/useAuth";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 import { Link } from "react-router";
 const CommentForm = ({ blogId }: { blogId: string }) => {
   const { isAuthenticated } = useAuth();

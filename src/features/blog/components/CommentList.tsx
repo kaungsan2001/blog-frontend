@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { useAuth } from "@/features/auth/useAuth";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useDeleteComment } from "../hooks/useComment";
 import Loading from "@/components/Loading";
 const CommentList = ({ blogId }: { blogId: string }) => {

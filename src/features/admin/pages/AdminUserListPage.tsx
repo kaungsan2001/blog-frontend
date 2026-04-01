@@ -35,7 +35,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useAuth } from "@/features/auth/useAuth";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 import CustomPagination from "@/components/CustomPagination";
 import Loading from "@/components/Loading";
 import { useDebounce } from "@/hooks/useDebounce";

@@ -4,7 +4,7 @@ import {
   useFollowUser,
   useUnfollowUser,
 } from "../hooks/useUser";
-import { useAuth } from "@/features/auth/useAuth";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 
 import Loading from "@/components/Loading";
 

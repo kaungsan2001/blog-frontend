@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import { ModeToggle } from "./mode-toggle";
-import { useAuth } from "@/features/auth/useAuth";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 import { authClient } from "@/lib/auth-client";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
@@ -60,7 +60,7 @@ const Header = ({
           </h1>
         </div>
         <div className="flex gap-3 items-center">
-          {(user.role === "admin" || user.role === "super_admin") && (
+          {(user?.role === "admin" || user?.role === "super_admin") && (
             <Link
               to="/admin"
               className="items-center gap-2 hidden md:flex lg:flex"

@@ -1,4 +1,4 @@
-import { useAuth } from "@/features/auth/useAuth";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useUpdateProfile } from "../hooks/useUser";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -13,7 +13,7 @@ import Loading from "@/components/Loading";
 import { useGetUserById } from "../hooks/useUser";
 
 const UpdateProfileform = () => {
-  const { user, isLoading: authLoading } = useAuth();
+  const { user } = useAuth();
   const { data, isLoading, error } = useGetUserById(user?.id || "");
 
   const {
@@ -36,7 +36,7 @@ const UpdateProfileform = () => {
     reset();
   };
 
-  if (isLoading || authLoading) {
+  if (isLoading) {
     return <Loading />;
   }
   if (error) {

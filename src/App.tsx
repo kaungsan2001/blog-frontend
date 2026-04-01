@@ -23,46 +23,48 @@ import SavedBlogsPage from "./features/blog/pages/SavedBlogsPage";
 import FollowerListPage from "./features/user/pages/FollowerListPage";
 import FollowingListPage from "./features/user/pages/FollowingListPage";
 import NotFoundPage from "./NotFoundPage";
-
+import AuthProvider from "./providers/AuthProvider";
 const App = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/auth" element={<GuestLayout />}>
-          <Route path="sign-in" element={<SignInPage />} />
-          <Route path="sign-up" element={<SignUpPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Route>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/auth" element={<GuestLayout />}>
+            <Route path="sign-in" element={<SignInPage />} />
+            <Route path="sign-up" element={<SignUpPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Route>
 
-        <Route path="/" element={<AuthLayout />}>
-          <Route index element={<HomePage />} />
+          <Route path="/" element={<AuthLayout />}>
+            <Route index element={<HomePage />} />
 
-          <Route path="blogs/create" element={<BlogCreatePage />} />
-          <Route path="blogs/edit/:id" element={<UpdateBlogPage />} />
-          <Route path="blogs/saved" element={<SavedBlogsPage />} />
-          <Route path="blogs/list" element={<BlogListPage />} />
-          <Route path="blogs/details/:id" element={<BlogDetailPage />} />
-          <Route path="blogs/search" element={<BlogSearchPage />} />
+            <Route path="blogs/create" element={<BlogCreatePage />} />
+            <Route path="blogs/edit/:id" element={<UpdateBlogPage />} />
+            <Route path="blogs/saved" element={<SavedBlogsPage />} />
+            <Route path="blogs/list" element={<BlogListPage />} />
+            <Route path="blogs/details/:id" element={<BlogDetailPage />} />
+            <Route path="blogs/search" element={<BlogSearchPage />} />
 
-          <Route path="users/list" element={<UserListPage />} />
-          <Route path="users/search" element={<UserSearchPage />} />
+            <Route path="users/list" element={<UserListPage />} />
+            <Route path="users/search" element={<UserSearchPage />} />
 
-          <Route path="users/profile/:id" element={<ProfilePage />} />
-          <Route path="users/followers" element={<FollowerListPage />} />
-          <Route path="users/following" element={<FollowingListPage />} />
-          <Route path="users/settings" element={<SettingsPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Route>
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<DashboardPage />} />
-          <Route path="users" element={<AdminUserListPage />} />
-          <Route path="blogs" element={<AdminBlogListPage />} />
-          <Route path="admins" element={<AdminListPage />} />
-          <Route path="categories" element={<AdminCategoryListPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+            <Route path="users/profile/:id" element={<ProfilePage />} />
+            <Route path="users/followers" element={<FollowerListPage />} />
+            <Route path="users/following" element={<FollowingListPage />} />
+            <Route path="users/settings" element={<SettingsPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Route>
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<DashboardPage />} />
+            <Route path="users" element={<AdminUserListPage />} />
+            <Route path="blogs" element={<AdminBlogListPage />} />
+            <Route path="admins" element={<AdminListPage />} />
+            <Route path="categories" element={<AdminCategoryListPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 };
 

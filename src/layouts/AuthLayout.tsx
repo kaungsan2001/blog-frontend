@@ -1,6 +1,5 @@
 import Header from "@/components/Header";
 import { Outlet, Navigate, useNavigate, Link } from "react-router";
-import { useAuth } from "@/features/auth/useAuth";
 import Loading from "@/components/Loading";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -12,6 +11,7 @@ import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Suspense } from "react";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 
 const NavLinks = [
   {
@@ -37,7 +37,7 @@ const NavLinks = [
 ];
 
 const AuthLayout = () => {
-  const { isAuthenticated, isLoading, error, user } = useAuth();
+  const { user } = useAuth();
   const [sideBarOpen, setSideBarOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -58,17 +58,10 @@ const AuthLayout = () => {
       },
     });
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-
-  if (!isAuthenticated) {
+  if (!user) {
     return <Navigate to="/auth/sign-in" replace />;
   }
+
   return (
     <div className="pb-30 relative">
       {sideBarOpen && (

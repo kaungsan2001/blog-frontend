@@ -3,7 +3,7 @@ import BlogCard from "@/features/blog/components/BlogCard";
 import { useState } from "react";
 import Loading from "@/components/Loading";
 import CustomPagination from "@/components/CustomPagination";
-import { useAuth } from "@/features/auth/useAuth";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 
 const UserBlogsList = ({ userId }: { userId: string }) => {
   const { user } = useAuth();

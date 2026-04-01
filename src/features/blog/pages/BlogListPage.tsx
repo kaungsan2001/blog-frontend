@@ -1,6 +1,5 @@
 import { useGetBlogs } from "../hooks/useBlog";
 import BlogCard from "../components/BlogCard";
-
 import { Link } from "react-router";
 import { useState } from "react";
 import { buttonVariants } from "@/components/ui/button";

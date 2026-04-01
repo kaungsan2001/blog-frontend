@@ -25,7 +25,7 @@ import {
 } from "lucide-react";
 import { useGetAdminList, useDemoteToUser } from "../hooks/useAdmin";
 import { useState } from "react";
-import { useAuth } from "@/features/auth/useAuth";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 import {
   AlertDialog,
   AlertDialogAction,

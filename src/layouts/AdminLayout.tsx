@@ -22,9 +22,8 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/features/auth/useAuth";
-import Loading from "@/components/Loading";
 import { authClient } from "@/lib/auth-client";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 const navItems = [
   {
     label: "Dashboard",
@@ -55,9 +54,9 @@ const navItems = [
 ];
 
 const AdminLayout = () => {
+  const { user } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
-  const { user, isLoading } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -71,10 +70,6 @@ const AdminLayout = () => {
         (item.end && location.pathname === item.path) ||
         (!item.end && location.pathname.startsWith(item.path)),
     )?.label ?? "Dashboard";
-
-  if (isLoading) {
-    return <Loading />;
-  }
 
   if (!user || (user.role !== "admin" && user.role !== "super_admin")) {
     return <Navigate to="/auth/sign-in" replace />;
