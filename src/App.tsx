@@ -29,12 +29,6 @@ const App = () => {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/auth" element={<GuestLayout />}>
-            <Route path="sign-in" element={<SignInPage />} />
-            <Route path="sign-up" element={<SignUpPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Route>
-
           <Route path="/" element={<AuthLayout />}>
             <Route index element={<HomePage />} />
 
@@ -54,6 +48,13 @@ const App = () => {
             <Route path="users/settings" element={<SettingsPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
+
+          <Route path="/auth" element={<GuestLayout />}>
+            <Route path="sign-in" element={<SignInPage />} />
+            <Route path="sign-up" element={<SignUpPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Route>
+
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<DashboardPage />} />
             <Route path="users" element={<AdminUserListPage />} />
