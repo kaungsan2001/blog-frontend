@@ -45,16 +45,21 @@ const AdminBlogListPage = () => {
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearchQuery = useDebounce(searchQuery, 700);
-  const { data: blogsData, isLoading } = useGetAdminBlogs(
-    page,
-    debouncedSearchQuery,
-  );
+  const {
+    data: blogsData,
+    isLoading,
+    error,
+  } = useGetAdminBlogs(page, debouncedSearchQuery);
   const { mutate: deleteBlog } = useAdminDeleteBlog();
 
   const blogs = blogsData?.data || [];
   const meta = blogsData?.meta;
 
   if (isLoading) return <Loading />;
+
+  if (error) {
+    return <div>{error.message}</div>;
+  }
 
   return (
     <div className="space-y-6">

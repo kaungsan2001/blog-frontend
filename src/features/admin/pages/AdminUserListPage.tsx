@@ -39,6 +39,7 @@ import { useAuth } from "@/features/auth/hooks/useAuth";
 import CustomPagination from "@/components/CustomPagination";
 import Loading from "@/components/Loading";
 import { useDebounce } from "@/hooks/useDebounce";
+import { Link } from "react-router";
 
 const AdminUserListPage = () => {
   const [page, setPage] = useState(1);
@@ -124,7 +125,12 @@ const AdminUserListPage = () => {
                           </Avatar>
                           <div className="min-w-0">
                             <p className="text-sm font-medium truncate">
-                              {user.name}
+                              <Link
+                                to={`/users/profile/${user.id}`}
+                                className="hover:underline"
+                              >
+                                {user.name}
+                              </Link>
                               {user.id === authUser?.id && (
                                 <Badge
                                   variant="outline"

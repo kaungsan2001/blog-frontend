@@ -37,7 +37,9 @@ const BlogDetailPage = () => {
             </Link>
           )}
         </div>
-        {data?.data.image && <AdvancedImage cldImg={img} />}
+        {data?.data.image && (
+          <AdvancedImage cldImg={img} className="w-full h-100 object-contain" />
+        )}
         <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-10 mt-5">
           {data?.data.title}
         </h1>

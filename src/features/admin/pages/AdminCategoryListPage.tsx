@@ -43,8 +43,11 @@ const AdminCategoryListPage = () => {
     null,
   );
 
-  const { data: categoriesResponse, isLoading } =
-    useGetAllCategories(debouncedSearchQuery);
+  const {
+    data: categoriesResponse,
+    isLoading,
+    error,
+  } = useGetAllCategories(debouncedSearchQuery);
 
   const { mutate: deleteCategory } = useDeleteCategory();
 
@@ -61,6 +64,10 @@ const AdminCategoryListPage = () => {
   };
 
   if (isLoading) return <Loading />;
+
+  if (error) {
+    return <div>{error.message}</div>;
+  }
 
   return (
     <div className="space-y-6">

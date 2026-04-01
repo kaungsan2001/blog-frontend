@@ -16,7 +16,13 @@ export default function AuthProvider({
   }
 
   if (error) {
-    return <div>Something went wrong. Try again later.</div>;
+    return (
+      <div>
+        {error.status === 429
+          ? "Too many requests. Please try again later."
+          : "Something went wrong. Try again later."}
+      </div>
+    );
   }
 
   return (

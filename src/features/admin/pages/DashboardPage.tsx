@@ -49,10 +49,8 @@ const DashboardPage = () => {
 
   if (statsError || blogsError || usersError) {
     return (
-      <div className="flex h-64 items-center justify-center">
-        <p className="text-red-500">
-          {statsError?.message || blogsError?.message || usersError?.message}
-        </p>
+      <div>
+        {statsError?.message || blogsError?.message || usersError?.message}
       </div>
     );
   }

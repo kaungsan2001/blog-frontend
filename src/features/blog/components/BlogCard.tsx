@@ -123,7 +123,9 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
         </div>
       </CardHeader>
       <CardContent className="line-clamp-3 text-muted-foreground text-wrap wrap-break-word flex-1">
-        {blog.image && <AdvancedImage cldImg={img} />}
+        {blog.image && (
+          <AdvancedImage cldImg={img} className="w-full h-48 object-cover" />
+        )}
         <Badge variant="outline" className="my-2">
           {blog.category.name}
         </Badge>

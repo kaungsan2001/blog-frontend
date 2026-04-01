@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import {
   Outlet,
   NavLink,
@@ -24,6 +24,7 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { authClient } from "@/lib/auth-client";
 import { useAuth } from "@/features/auth/hooks/useAuth";
+import Loading from "@/components/Loading";
 const navItems = [
   {
     label: "Dashboard",
@@ -207,7 +208,9 @@ const AdminLayout = () => {
 
         {/* Page content */}
         <main className="flex-1 overflow-y-auto p-4 lg:p-6">
-          <Outlet />
+          <Suspense fallback={<Loading />}>
+            <Outlet />
+          </Suspense>
         </main>
       </div>
     </div>

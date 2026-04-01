@@ -41,6 +41,7 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Link } from "react-router";
+import Loading from "@/components/Loading";
 
 function roleIcon(role: string) {
   if (role === "super_admin")
@@ -52,10 +53,11 @@ const AdminListPage = () => {
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearchQuery = useDebounce(searchQuery, 700);
-  const { data: adminsData, isLoading } = useGetAdminList(
-    page,
-    debouncedSearchQuery,
-  );
+  const {
+    data: adminsData,
+    isLoading,
+    error,
+  } = useGetAdminList(page, debouncedSearchQuery);
   const { mutate: demoteUser } = useDemoteToUser();
   const { user: authUser } = useAuth();
   const isSuperAdmin = authUser?.role === "super_admin";
@@ -72,6 +74,12 @@ const AdminListPage = () => {
 
   const admins = adminsData?.data || [];
   const meta = adminsData?.meta;
+
+  if (isLoading) return <Loading />;
+
+  if (error) {
+    return <div>{error.message}</div>;
+  }
 
   return (
     <div className="space-y-6">
