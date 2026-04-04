@@ -54,6 +54,23 @@ export function SignInForm({
         setLoading(false);
       },
     });
+
+  const googleLogin = () => {
+    setLoading(true);
+    authClient.signIn.social({
+      provider: "google",
+      callbackURL: "http://localhost:5173/",
+      fetchOptions: {
+        onSuccess: () => {
+          setLoading(false);
+        },
+        onError: (error) => {
+          toast.error(error.error.message);
+          setLoading(false);
+        },
+      },
+    });
+  };
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -88,6 +105,14 @@ export function SignInForm({
               <Field>
                 <Button type="submit" disabled={loading}>
                   Login
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={loading}
+                  onClick={() => googleLogin()}
+                >
+                  Login with Google
                 </Button>
 
                 <FieldDescription className="text-center">

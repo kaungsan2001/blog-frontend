@@ -54,6 +54,23 @@ export function SignUpForm({ ...props }: React.ComponentProps<typeof Card>) {
         setLoading(false);
       },
     });
+
+  const googleLogin = () => {
+    setLoading(true);
+    authClient.signIn.social({
+      provider: "google",
+      callbackURL: "http://localhost:5173/",
+      fetchOptions: {
+        onSuccess: () => {
+          setLoading(false);
+        },
+        onError: (error) => {
+          toast.error(error.error.message);
+          setLoading(false);
+        },
+      },
+    });
+  };
   return (
     <Card {...props}>
       <CardHeader>
@@ -109,6 +126,21 @@ export function SignUpForm({ ...props }: React.ComponentProps<typeof Card>) {
               <Field>
                 <Button type="submit" disabled={loading}>
                   Create Account
+                </Button>
+
+                <div className="flex items-center gap-4 my-3">
+                  <div className="w-full h-1 border-b"></div>
+                  <p>Or</p>
+                  <div className="w-full h-1 border-b"></div>
+                </div>
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={loading}
+                  onClick={() => googleLogin()}
+                >
+                  Login with Google
                 </Button>
 
                 <FieldDescription className="px-6 text-center">
