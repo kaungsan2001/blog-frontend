@@ -59,7 +59,7 @@ export function SignInForm({
     setLoading(true);
     authClient.signIn.social({
       provider: "google",
-      callbackURL: "http://localhost:5173/",
+      callbackURL: import.meta.env.VITE_CALLBACK_URL,
       fetchOptions: {
         onSuccess: () => {
           setLoading(false);

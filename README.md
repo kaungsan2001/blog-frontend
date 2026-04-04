@@ -44,8 +44,9 @@ src/
    Ensure an `.env` file exists in the root directory containing necessary environment variables
 
    ```env
-   VITE_API_BASE_URL=http://localhost:3000
+   VITE_API_BASE_URL=http://localhost:8000
    VITE_CLOUDINARY_CLOUD_NAME=your-cloud-name
+   VITE_CALLBACK_URL=http://localhost:5173/
    ```
 
 3. **Development Server**
